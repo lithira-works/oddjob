@@ -125,6 +125,56 @@ export const providers: Provider[] = [
     quote: 11000, arrives: "Next week",
     pastJobs: [{ title: "Repainted a brick front wall", note: "Two coats, masonry paint." }],
   },
+  {
+    slug: "hana-s", name: "Hana S.", tradeSlug: "air-conditioning", area: "3 km away", booked: 109, redone: 2, rehired: 37, years: 8,
+    checks: ["ID checked", "Phone checked"],
+    about: "Servicing, gas top-ups and noisy units. Cleans up the drip tray too.",
+    quote: 7500, arrives: "Today, after 3 pm",
+    pastJobs: [
+      { title: "Serviced two bedroom units", note: "Filters, coils and drain line." },
+      { title: "Fixed a unit blowing warm air", note: "Failed capacitor. Same visit." },
+    ],
+  },
+  {
+    slug: "omar-l", name: "Omar L.", tradeSlug: "appliance-repair", area: "4 km away", booked: 142, redone: 5, rehired: 26, years: 13,
+    checks: ["ID checked", "Phone checked"],
+    about: "Washers, fridges and ovens. Quotes the part before ordering it.",
+    quote: 5000, arrives: "Tomorrow morning",
+    pastJobs: [
+      { title: "Replaced a washing machine pump", note: "Part in stock. One visit." },
+      { title: "Fixed a fridge that froze everything", note: "New thermostat." },
+    ],
+  },
+  {
+    slug: "priya-n", name: "Priya N.", tradeSlug: "cleaner", area: "2 km away", booked: 201, redone: 3, rehired: 68, years: 7,
+    checks: ["ID checked", "Phone checked"],
+    about: "Deep cleans and move-out cleans. Brings her own equipment.",
+    quote: 6000, arrives: "Today, after 1 pm",
+    pastJobs: [
+      { title: "Move-out clean of a three-bedroom house", note: "Oven and windows included." },
+      { title: "Cleared mould from a bathroom", note: "Ceiling and grout." },
+    ],
+  },
+  {
+    slug: "ben-c", name: "Ben C.", tradeSlug: "pest-control", area: "5 km away", booked: 67, redone: 1, rehired: 14, years: 5,
+    checks: ["ID checked", "Phone checked", "Trade licence seen"],
+    about: "Termites, rats and wasps. Tells you what is safe around children and pets.",
+    quote: 8000, arrives: "Thursday",
+    pastJobs: [
+      { title: "Treated termites in a door frame", note: "Second check after two weeks." },
+      { title: "Removed a wasp nest from a roof", note: "Evening visit." },
+    ],
+  },
+  {
+    slug: "sara-h", name: "Sara H.", tradeSlug: "handyperson", area: "1 km away", booked: 176, redone: 2, rehired: 59, years: 9,
+    checks: ["ID checked", "Phone checked"],
+    about: "The small jobs nobody else wants. Flat-pack, curtains and hanging things.",
+    quote: 3000, arrives: "Today, after 5 pm",
+    pastJobs: [
+      { title: "Mounted a TV on a brick wall", note: "Cables hidden in trunking." },
+      { title: "Built a flat-pack wardrobe", note: "Fixed to the wall for safety." },
+    ],
+  },
 ];
 
 export const providerBySlug = (slug: string) => providers.find((p) => p.slug === slug);

@@ -11,7 +11,10 @@ Last updated 2026-11-05. This is a working front-end preview, not a launch-ready
 - Chat screening on a server route: phone numbers, spelled-out numbers, emails, links, messaging apps and offers to avoid fees. Measurements, prices and years pass through.
 - Credit rules: derived balance, no overdraft, no double charge, one refund per fake lead.
 - Security headers with a per-request CSP nonce, input validation and per-IP rate limits on API routes.
-- Unit tests for matching, screening and credits.
+- Unit tests for matching, screening, credits, market filters and ad rules.
+- Two separate lists: `/jobs` (homes that need help, blue) and `/workers` (people ready to work, white), each with category, search and sort filters. Choosing a category carries across both.
+- Category pages at `/trades/[slug]`, showing homes asking and people listed side by side.
+- Banner spaces with date windows, on the homepage, both lists, deals and category pages. `lib/data/ads.ts` holds the bookings, and there are none yet, so each space offers itself for hire.
 
 ## Simulated: looks real, does nothing real
 
@@ -24,6 +27,9 @@ Last updated 2026-11-05. This is a working front-end preview, not a launch-ready
 | Masked phone line | Not connected to a telephony provider |
 | Chat | Held in the browser only. Lost on reload |
 | Credit balance on the board | Held in the browser. The real one must come from the database |
+| Offers and deals | All fictional, from `lib/data/offers.ts`. Labelled on screen. None can be redeemed |
+| Ad booking | Not open. No prices, no payment, no contact route on `/advertise`. Ads are added by editing `lib/data/ads.ts` |
+| Worker listing | Sample profiles only. Nobody can list themselves until accounts exist |
 | Sign-in and accounts | None |
 | ID checks | None. The profile "checks" are sample text |
 | Photo upload | Not built |
@@ -35,7 +41,7 @@ Last updated 2026-11-05. This is a working front-end preview, not a launch-ready
 
 ## Promises on the site that must be true before launch
 
-The site describes planned behaviour as fact, so the design can be judged. Each of these needs the real system first, or the wording must change: masked lines, held payments, the 30-day guarantee, ID checks, address removal after a job, deletion schedules, fake lead refunds, and a privacy policy (linked from `/safety`, not written yet).
+The site describes planned behaviour as fact, so the design can be judged. Each of these needs the real system first, or the wording must change: masked lines, held payments, the 30-day guarantee, ID checks, job details shown only to checked workers, address removal after a job, deletion schedules, fake lead refunds, and a privacy policy (linked from `/safety`, not written yet).
 
 ## Blocks launch
 
@@ -48,6 +54,8 @@ The site describes planned behaviour as fact, so the design can be judged. Each 
 
 ## Known gaps
 
+- `/jobs`, the homepage and `/trades/[slug]` show job words to anyone, which is fine only for sample data. Decided: real job words and rough areas go only to signed-in, ID-checked workers and the household itself. Visitors get a count per trade from `open_job_counts()`. These pages must follow that rule when they move to the database.
+- Checked workers can read `household_id` on open jobs, which links one household's jobs together. Serve the board through a view or server route without that column.
 - `/job?q=` puts the household's own words in the URL, which can reach logs and browser history. Change to POST when real jobs exist.
 - The rate limiter is per-server memory. It needs a shared store on serverless hosting, and the first `x-forwarded-for` value should only be trusted behind your own proxy.
 - Screening is English-only. It handles Sri Lankan number formats, but not numbers or contact offers written in Sinhala, Tamil or Singlish.

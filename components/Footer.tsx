@@ -11,10 +11,14 @@ export function Footer() {
         <a href="#top" className="link">Back to top</a>
       </div>
       <div>
-        <Link href="/board" className="display foot__big">I do this work</Link>
+        <Link href="/jobs" className="display foot__big">I do this work</Link>
         <div className="foot__meta">
           <nav aria-label="Footer">
-            <Link href="/trades" className="link link--quiet">Trades</Link>
+            <Link href="/trades" className="link link--quiet">Categories</Link>
+            <Link href="/jobs" className="link link--quiet">Jobs</Link>
+            <Link href="/workers" className="link link--quiet">Workers</Link>
+            <Link href="/deals" className="link link--quiet">Deals</Link>
+            <Link href="/advertise" className="link link--quiet">Advertise</Link>
             <Link href="/safety" className="link link--quiet">Safety</Link>
             <Link href="/credits" className="link link--quiet">Picture credits</Link>
           </nav>

@@ -1,5 +1,7 @@
 -- Oddjob schema with Row Level Security. Not applied yet: needs a Supabase project (Phase 1).
 -- Rules this enforces:
+--   * Visitors see only how many jobs are open per trade, never a job's words or area.
+--   * Only an ID-checked, unsuspended provider sees open jobs: words and rough area.
 --   * A provider sees the rough area until they answer, and the exact address only when booked.
 --   * Credit balance comes from an append-only ledger with idempotency keys.
 --   * Contact details live apart from public profiles.
@@ -110,6 +112,14 @@ language sql stable security definer set search_path = '' as $$
   select coalesce(sum(l.amount), 0) from public.credit_ledger l where l.provider_id = target_provider;
 $$;
 
+-- All a visitor may learn about jobs: a count per trade. No words, areas or people.
+create function open_job_counts() returns table (trade_slug text, open_jobs bigint)
+language sql stable security definer set search_path = '' as $$
+  select j.trade_slug, count(*) from public.jobs j
+  where j.status in ('open', 'quoted') and j.trade_slug is not null
+  group by j.trade_slug;
+$$;
+
 -- Atomic: locks the provider, refuses overdraft, full jobs and repeat charges.
 create function answer_job(target_job uuid, cost int, max_replies int default 5) returns void
 language plpgsql security definer set search_path = '' as $$
@@ -140,7 +150,12 @@ alter table messages enable row level security;
 alter table credit_ledger enable row level security;
 alter table audit_log enable row level security;
 
-create policy "profiles readable" on profiles for select using (true);
+-- Provider profiles are public. A household's name goes only to the person they booked.
+create policy "profiles readable" on profiles for select using (
+  id = auth.uid()
+  or role = 'provider'
+  or exists (select 1 from jobs j where j.household_id = profiles.id and j.booked_provider_id = auth.uid())
+);
 create policy "own profile update" on profiles for update using (id = auth.uid()) with check (id = auth.uid() and role = (select p.role from profiles p where p.id = auth.uid()));
 
 create policy "own contact details" on contact_details for select using (user_id = auth.uid());
@@ -151,7 +166,9 @@ create policy "own provider update" on providers for update using (id = auth.uid
 
 create policy "household sees own jobs" on jobs for select using (household_id = auth.uid());
 create policy "providers see open jobs" on jobs for select using (
-  status in ('open', 'quoted') and exists (select 1 from providers p where p.id = auth.uid() and p.suspended_at is null)
+  status in ('open', 'quoted') and exists (
+    select 1 from providers p where p.id = auth.uid() and p.suspended_at is null and p.id_checked_at is not null
+  )
 );
 create policy "answering provider sees job" on jobs for select using (provider_answered(id));
 create policy "household creates job" on jobs for insert with check (household_id = auth.uid());
@@ -185,3 +202,5 @@ create policy "own ledger" on credit_ledger for select using (provider_id = auth
 revoke update (id_checked_at, suspended_at) on providers from authenticated;
 revoke all on function answer_job(uuid, int, int) from public;
 grant execute on function answer_job(uuid, int, int) to authenticated;
+revoke all on function open_job_counts() from public;
+grant execute on function open_job_counts() to anon, authenticated;

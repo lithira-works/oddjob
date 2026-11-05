@@ -2,6 +2,8 @@
 
 These pictures are stand-ins that show the world of each trade. None shows an Oddjob customer, worker or job. They are resized and cropped, and otherwise unchanged. The site shows the same list at `/credits`.
 
+Category icons are from [Lucide](https://lucide.dev), ISC licence, unchanged. They are drawn in code, so they have no picture files in the list below.
+
 CC BY-SA pictures: if you alter one beyond cropping, such as recolouring it or combining it with others, share the result under the same licence.
 
 | File | Title | Creator | Licence | Source |

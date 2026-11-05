@@ -15,7 +15,7 @@ Front end, core rules with tests, security headers, schema draft and docs. See [
 
 ## Phase 1: MVP (8 to 10 weeks)
 
-- Apply the database schema, with automated tests that try cross-user access.
+- Apply the database schema, with automated tests that try cross-user access. Include visitors and unchecked providers trying to read open jobs.
 - Phone sign-in, and passkeys for providers and admins.
 - Real jobs, replies, realtime chat and credits, with payment by the chosen provider.
 - Masked calling.

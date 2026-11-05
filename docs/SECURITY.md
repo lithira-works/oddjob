@@ -10,7 +10,7 @@ No site is unhackable. The goal is to make attacks hard, limit the damage and re
 | --- | --- | --- |
 | Stealing the provider list or customer numbers | Rate limits and bot detection. Contact details never sent to the browser before unlock | Rate limits built on API routes. Rest planned |
 | Viewing another user's job, chat or address | Row Level Security on every table, with tests that try cross-user access. Permission check on each realtime channel | Policies drafted. Tests planned |
-| Burglars or stalkers using job posts | Rough area until booking, then exact address to the booked provider only. Removed from view after the job | Separate `job_addresses` table drafted |
+| Burglars or stalkers using job posts | Job words and rough area only for signed-in, ID-checked providers. Visitors see a count per trade. Exact address to the booked provider only, removed from view after the job | Policies, `open_job_counts()` and separate `job_addresses` table drafted. Pages still show sample jobs openly |
 | Account takeover | Phone OTP with short expiry and attempt limits. Passkeys for providers. Passkey or hardware key for admins. Re-check before changing a phone or payout account | Planned |
 | SIM swap and SMS fraud | Hold payouts after a phone change. Limit OTP sends per number, IP and country | Planned |
 | Payment and credit fraud | Hosted payment pages. Verified, idempotent webhooks. Server-side ledger | Ledger rules built and drafted in SQL. Payments planned |

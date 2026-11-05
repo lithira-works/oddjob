@@ -39,7 +39,11 @@ npm run hooks
 | `/job` | The job card: describe, compare replies, chat, book, sign off |
 | `/trades` | A to Z trade index with picture preview |
 | `/pros/[slug]` | Provider profile with the work ledger |
-| `/board` | Provider dispatch board with credits |
+| `/jobs` | Homes that need help: the worker's board, with credits. `/board` redirects here |
+| `/workers` | People ready to work: the household's list |
+| `/trades/[slug]` | One category, with homes asking beside people listed |
+| `/deals` | Sample offers and deals |
+| `/advertise` | Banner spaces and ad rules |
 | `/safety` | Who sees what, and when |
 | `/credits` | Picture credits |
 

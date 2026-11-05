@@ -23,7 +23,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   // Reading headers makes every page dynamic, which the per-request CSP nonce requires.
   const nonce = (await headers()).get("x-nonce") ?? undefined;
   return (
-    <html lang="en" className={archivo.variable} suppressHydrationWarning>
+    <html lang="en" className={archivo.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>

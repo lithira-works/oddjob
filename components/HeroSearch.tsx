@@ -180,7 +180,7 @@ export function HeroSearch() {
         <div className="hero__window">
           <div className="hero__reel" ref={reelRef} aria-hidden="true">
             <div className="hero__frame">
-              <Image src={prev.image} alt="" fill sizes="(max-width: 820px) 100vw, 36vw" />
+              <Image src={prev.image} alt="" fill sizes="(max-width: 820px) 100vw, 36vw" loading="eager" />
             </div>
             {reel.map((s, i) => (
               <div className="hero__frame" key={s.image}>
@@ -222,7 +222,8 @@ export function HeroSearch() {
         </form>
 
         <p className="hero__support">
-          Say it in your own words. Up to five people nearby reply, and you choose by their work.
+          Say it in your own words. Up to five people nearby reply, and you choose by their work.{" "}
+          <span className="hero__browse">Or look around: <Link href="/workers" className="link hero__link">people ready to work</Link>, <Link href="/jobs" className="link hero__link">homes that need help</Link>.</span>
         </p>
 
         <div className="hero__answer" aria-live="polite">
@@ -231,7 +232,7 @@ export function HeroSearch() {
           ) : hasTyped && result.gated ? (
             <span>Care work opens after our safety checks are in place.</span>
           ) : answer ? (
-            <Link href={hasTyped ? destination : `/trades#${answer.slug}`} className="link link--quiet">
+            <Link href={hasTyped ? destination : `/trades/${answer.slug}`} className="link link--quiet">
               That’s a job for {answer.article} {answer.name}.
             </Link>
           ) : (

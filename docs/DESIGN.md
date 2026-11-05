@@ -41,8 +41,11 @@ All live in `app/globals.css`. Do not add colours or sizes outside them.
 | Section | Composition |
 | --- | --- |
 | Hero | Sentence split around a pinned picture reel, with the form on the frame |
+| Categories | Straight after the hero: four groups of icon, service and typical jobs |
+| Two sides | Two full-height halves: "Need a hand?" on tone, "Need work?" on blue |
+| Ad space | One wide band. A booked ad is always labelled with its advertiser |
+| Deals | Heading left, list of offers right, with the amount set large |
 | How it works | Four lines stepping down a staircase |
-| Trades | Wide heading, table pushed right, one tall photo left |
 | Work ledger | Sticky heading, with video, figures and a photo passing by |
 | Privacy | Full-height picture beside a table of who sees what |
 | Pricing | One sentence, with the price as a blue block |
@@ -50,7 +53,19 @@ All live in `app/globals.css`. Do not add colours or sizes outside them.
 | Close | Inverted black: "Still leaking?" echoes the hero |
 | Footer | Blue field. The way in is the headline: "I do this work" |
 | `/job` | Black job card held on the left, stage on the right |
-| `/board` | The whole page is the blue field, a dispatch board |
+| `/jobs` | The whole page is the blue field, a dispatch board. Blue always means the worker's side |
+| `/workers` | White page with rows on tone. Blue or white tells you which side you are on |
+| `/trades` | Search, then trades in four groups, with a sticky picture |
+| `/trades/[slug]` | Blue panel of homes asking beside a tone panel of people |
+| `/deals` | One column of offers, filtered by kind |
+
+## Category icons
+
+Each trade has one line icon from Lucide, mapped in `lib/trade-icons.ts`. It always sits beside the trade's name, in a row, on no card or tile. Icon-topped cards stay banned.
+
+## Ads
+
+Ads are first-party pictures and links, listed in `lib/data/ads.ts`. No ad network, no tracking script, no household data. No ads in `/job`, chat, booking or payment, or beside emergency notices. No ads for care work while it is blocked.
 
 ## Motion
 

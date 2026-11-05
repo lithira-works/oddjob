@@ -1,0 +1,36 @@
+import {
+  AirVent, AppWindow, Baby, BrickWall, Bug, Cctv, Droplets, Drill, Fence, Flame, Grid2x2, Hammer,
+  HeartHandshake, House, KeyRound, PaintRoller, Shovel, SolarPanel, Sparkles, Sprout, Trash2, TreeDeciduous,
+  Truck, WashingMachine, Wifi, Wrench, Zap, type LucideIcon,
+} from "lucide-react";
+
+/** One icon per trade, from the Lucide set (ISC licence). See docs/CREDITS.md. */
+export const TRADE_ICONS: Record<string, LucideIcon> = {
+  plumber: Wrench,
+  electrician: Zap,
+  "air-conditioning": AirVent,
+  "appliance-repair": WashingMachine,
+  "solar-installer": SolarPanel,
+  "water-tank": Droplets,
+  carpenter: Hammer,
+  mason: BrickWall,
+  roofer: House,
+  painter: PaintRoller,
+  tiler: Grid2x2,
+  welder: Flame,
+  locksmith: KeyRound,
+  glazier: AppWindow,
+  "tree-cutter": TreeDeciduous,
+  gardener: Sprout,
+  "fence-repair": Fence,
+  "pest-control": Bug,
+  "waste-removal": Trash2,
+  "well-digger": Shovel,
+  cleaner: Sparkles,
+  mover: Truck,
+  handyperson: Drill,
+  "cctv-installer": Cctv,
+  "wifi-technician": Wifi,
+  babysitter: Baby,
+  "elder-carer": HeartHandshake,
+};

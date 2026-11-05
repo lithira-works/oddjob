@@ -1,11 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AdSlot } from "@/components/AdSlot";
+import { DealList } from "@/components/DealList";
 import { Footer } from "@/components/Footer";
 import { HeroSearch } from "@/components/HeroSearch";
-import { trades, type TradeGroup } from "@/lib/data/trades";
-import { providerBySlug } from "@/lib/data/providers";
-
-const groups: TradeGroup[] = ["Water and power", "Wood and stone", "Outside", "Inside"];
+import { boardJobs, MAX_REPLIES } from "@/lib/data/jobs";
+import { offers } from "@/lib/data/offers";
+import { trades } from "@/lib/data/trades";
+import { providerBySlug, providers } from "@/lib/data/providers";
+import { TradeIcon } from "@/components/TradeIcon";
+import { capitalise, TRADE_GROUPS } from "@/lib/market";
 
 const faqs = [
   {
@@ -36,11 +40,90 @@ const faqs = [
 
 export default function HomePage() {
   const sample = providerBySlug("tomas-k")!;
+  const openJobs = boardJobs.filter((job) => job.replies < MAX_REPLIES).slice(0, 3);
+  const someWorkers = [...providers].sort((a, b) => b.rehired - a.rehired).slice(0, 3);
   return (
     <>
       <HeroSearch />
 
       <main>
+        <section className="section section--near" aria-labelledby="trades-title">
+          <div className="cathead">
+            <h2 id="trades-title" className="display head" data-reveal="">Every odd job has someone</h2>
+            <Link href="/trades" className="link">See every category</Link>
+          </div>
+          <div className="catgrid">
+            {TRADE_GROUPS.map((group) => (
+              <div key={group}>
+                <h3 className="catgrid__group">{group}</h3>
+                <ul>
+                  {trades
+                    .filter((t) => t.group === group && t.featured)
+                    .map((t, i) => (
+                      <li key={t.slug} data-reveal="row" style={{ "--i": i } as React.CSSProperties}>
+                        <Link className={`catlink ${t.gated ? "catlink--off" : ""}`} href={`/trades/${t.slug}`}>
+                          <TradeIcon slug={t.slug} size={28} />
+                          <span className="catlink__text">
+                            <span className="catlink__name">{t.service ?? capitalise(t.name)}</span>
+                            <span className="catlink__jobs small">{t.jobs}</span>
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="sides" aria-label="The two sides of Oddjob">
+          <div className="sides__half">
+            <h2 className="display sides__title" data-reveal="">Need a hand?</h2>
+            <p className="lead">Browse people by trade, and compare what they’ve actually done.</p>
+            <ul className="cat__rows">
+              {someWorkers.map((worker) => (
+                <li key={worker.slug}>
+                  <Link href={`/pros/${worker.slug}`} className="link link--quiet"><b>{worker.name}</b></Link>
+                  <span className="small num">{worker.area}. {worker.booked} jobs booked, {worker.rehired} homes called back.</span>
+                </li>
+              ))}
+            </ul>
+            <div className="sides__act">
+              <Link href="/workers" className="btn btn--ink">See people ready to work</Link>
+              <p className="small">Sample profiles, made up.</p>
+            </div>
+          </div>
+          <div className="sides__half sides__half--blue on-accent">
+            <h2 className="display sides__title" data-reveal="">Need work?</h2>
+            <p className="lead">See what households near you need done, and answer the jobs you want.</p>
+            <ul className="cat__rows">
+              {openJobs.map((job) => (
+                <li key={job.id}>
+                  <b>{job.words}</b>
+                  <span className="small">{job.area}, rough area only. {job.when}.</span>
+                </li>
+              ))}
+            </ul>
+            <div className="sides__act">
+              <Link href="/jobs" className="btn btn--white">See homes that need help</Link>
+              <p className="small">Sample jobs. Nobody posted these.</p>
+            </div>
+          </div>
+        </section>
+
+        <div className="section"><AdSlot slot="home-top" /></div>
+
+        <section className="section homedeals" aria-labelledby="deals-title">
+          <div className="homedeals__title">
+            <h2 id="deals-title" className="display head" data-reveal="">Money off the odd job</h2>
+            <p style={{ marginTop: 20 }}><Link href="/deals" className="link">See every deal</Link></p>
+          </div>
+          <div className="homedeals__list">
+            <DealList deals={offers.slice(0, 3)} />
+            <p className="small" style={{ marginTop: 12 }}>Sample offers. These are made up, and none can be redeemed yet.</p>
+          </div>
+        </section>
+
         <section className="section" aria-label="How it works">
           <div className="steps">
             <div className="step" data-reveal="">
@@ -58,41 +141,6 @@ export default function HomePage() {
             <div className="step" data-reveal="">
               <h3 className="display">Pay when it’s done</h3>
               <p>Protect the job and your money waits until you sign off. If it goes wrong, we step in.</p>
-            </div>
-          </div>
-        </section>
-
-        <section className="section" aria-labelledby="trades-title">
-          <h2 id="trades-title" className="display tradehead" data-reveal="">Every odd job has someone</h2>
-          <div className="grid12">
-            <div className="tradephoto" data-reveal="shutter">
-              <Image src="/images/brick.jpg" alt="A mason in a straw hat laying a course of blocks on a building site" fill sizes="(max-width: 820px) 70vw, 40vw" />
-            </div>
-            <div className="tradetable">
-              {groups.map((group) => (
-                <div className="tradetable__group" key={group} role="group" aria-label={group}>
-                  {trades
-                    .filter((t) => t.group === group && t.featured)
-                    .map((t, i) =>
-                      t.gated ? (
-                        <div className="traderow traderow--off" key={t.slug} data-reveal="row" style={{ "--i": i } as React.CSSProperties}>
-                          <span className="traderow__name"><span className="cap">{t.name}</span></span>
-                          <span className="traderow__jobs">{t.jobs}</span>
-                          <span />
-                        </div>
-                      ) : (
-                        <Link className="traderow" key={t.slug} href={`/job?trade=${t.slug}`} data-reveal="row" style={{ "--i": i } as React.CSSProperties}>
-                          <span className="traderow__name"><span className="cap">{t.name}</span></span>
-                          <span className="traderow__jobs">{t.jobs}</span>
-                          <span className="traderow__arrow" aria-hidden="true">→</span>
-                        </Link>
-                      ),
-                    )}
-                </div>
-              ))}
-              <p style={{ marginTop: 32 }}>
-                <Link href="/trades" className="link">See every trade</Link>
-              </p>
             </div>
           </div>
         </section>
@@ -128,6 +176,8 @@ export default function HomePage() {
           </div>
         </section>
 
+        <div className="section"><AdSlot slot="home-lower" /></div>
+
         <section className="private" aria-labelledby="private-title">
           <div className="private__pic" data-reveal="shutter">
             <Image src="/images/paint.jpg" alt="A roller painting a brick wall bright orange" fill sizes="(max-width: 820px) 100vw, 50vw" />
@@ -155,7 +205,7 @@ export default function HomePage() {
             </p>
             <div className="plan__act" data-reveal="" style={{ "--i": 2 } as React.CSSProperties}>
               <Link href="/job" className="btn">Find someone</Link>
-              <Link href="/board" className="link">See what pros pay</Link>
+              <Link href="/jobs" className="link">See what pros pay</Link>
             </div>
           </div>
         </section>

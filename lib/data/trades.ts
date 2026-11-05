@@ -4,6 +4,8 @@ export type Trade = {
   slug: string;
   /** Singular, lower case, reads after "a job for a". */
   name: string;
+  /** The service in a few words, where the person's title is long. Shown on the homepage. */
+  service?: string;
   /** "a" or "an", so sentences read correctly. */
   article: "a" | "an";
   group: TradeGroup;
@@ -35,9 +37,9 @@ export const trades: Trade[] = [
     words: ["leak", "leaking", "leaks", "pipe", "pipes", "tap", "faucet", "sink", "drain", "blocked", "toilet", "shower", "water", "dripping", "drip", "flood", "flooding", "cistern", "water pressure", "water tank", "burst"] },
   { slug: "electrician", name: "electrician", article: "an", group: "Water and power", jobs: "Tripping fuses, sockets, lights", featured: true, ...fuses,
     words: ["electric", "electrical", "electricity", "socket", "plug", "switch", "fuse", "fuses", "tripping", "trips", "wiring", "wire", "light", "lights", "power cut", "no power", "breaker", "sparks", "sparking", "fan"] },
-  { slug: "air-conditioning", name: "air conditioning engineer", article: "an", group: "Water and power", jobs: "Servicing, no cold air, odd noises", featured: true, ...fuses,
+  { slug: "air-conditioning", service: "Air conditioning", name: "air conditioning engineer", article: "an", group: "Water and power", jobs: "Servicing, no cold air, odd noises", featured: true, ...fuses,
     words: ["air conditioning", "air conditioner", "aircon", "ac unit", "a/c", "cooling", "no cold air"] },
-  { slug: "appliance-repair", name: "appliance repairer", article: "an", group: "Water and power", jobs: "Washers, fridges, ovens", featured: true, ...fuses,
+  { slug: "appliance-repair", service: "Appliance repair", name: "appliance repairer", article: "an", group: "Water and power", jobs: "Washers, fridges, ovens", featured: true, ...fuses,
     words: ["washing machine", "washer", "fridge", "freezer", "oven", "cooker", "dishwasher", "microwave", "dryer", "appliance"] },
   { slug: "solar-installer", name: "solar installer", article: "a", group: "Water and power", jobs: "Panels, inverters, batteries", ...fuses,
     words: ["solar", "panel", "panels", "inverter"] },
@@ -61,20 +63,20 @@ export const trades: Trade[] = [
   { slug: "glazier", name: "glazier", article: "a", group: "Wood and stone", jobs: "Broken panes, window seals", ...plane,
     words: ["glass", "window", "broken window", "pane", "glazier", "mirror"] },
 
-  { slug: "tree-cutter", name: "tree cutter", article: "a", group: "Outside", jobs: "Felling, lopping, storm damage", featured: true, ...tree,
+  { slug: "tree-cutter", service: "Tree cutting", name: "tree cutter", article: "a", group: "Outside", jobs: "Felling, lopping, storm damage", featured: true, ...tree,
     words: ["tree", "trees", "branch", "branches", "felling", "fell", "stump", "lopping", "coconut", "too close", "fallen tree"] },
   { slug: "gardener", name: "gardener", article: "a", group: "Outside", jobs: "Scraping, weeding, mowing, hedges", featured: true, ...hedge,
     words: ["garden", "gardener", "grass", "lawn", "mow", "mowing", "weed", "weeds", "weeding", "hedge", "scrape", "scraping", "overgrown", "yard", "bushes", "plants"] },
-  { slug: "fence-repair", name: "fence and gate fixer", article: "a", group: "Outside", jobs: "Bent rails, stuck gates, new posts", featured: true, ...fence,
+  { slug: "fence-repair", service: "Fences and gates", name: "fence and gate fixer", article: "a", group: "Outside", jobs: "Bent rails, stuck gates, new posts", featured: true, ...fence,
     words: ["fence", "fencing", "gate", "post", "boundary", "bent rail"] },
-  { slug: "pest-control", name: "pest controller", article: "a", group: "Outside", jobs: "Termites, rats, wasps", featured: true, weight: 2, ...hedge,
+  { slug: "pest-control", service: "Pest control", name: "pest controller", article: "a", group: "Outside", jobs: "Termites, rats, wasps", featured: true, weight: 2, ...hedge,
     words: ["pest", "pests", "termite", "termites", "rat", "rats", "mice", "mouse", "cockroach", "cockroaches", "wasp", "wasps", "ants", "bed bugs", "snake", "mosquito"] },
   { slug: "waste-removal", name: "waste remover", article: "a", group: "Outside", jobs: "Rubble, old furniture, garden waste", ...tree,
     words: ["rubbish", "garbage", "rubble", "waste", "junk", "clear out", "remove old"] },
   { slug: "well-digger", name: "well and drain digger", article: "a", group: "Outside", jobs: "New drains, soakaways, septic tanks", ...brick,
     words: ["septic", "soakaway", "dig", "digging", "trench", "pit"] },
 
-  { slug: "cleaner", name: "house cleaner", article: "a", group: "Inside", jobs: "Deep cleans, move-out cleans", featured: true, ...paint,
+  { slug: "cleaner", service: "House cleaning", name: "house cleaner", article: "a", group: "Inside", jobs: "Deep cleans, move-out cleans", featured: true, ...paint,
     words: ["clean", "cleaning", "cleaner", "deep clean", "mould", "mold", "dusty", "carpet"] },
   { slug: "mover", name: "mover", article: "a", group: "Inside", jobs: "House moves, heavy lifting", ...plane,
     words: ["move", "moving", "mover", "lift", "shift", "heavy", "transport"] },

@@ -17,7 +17,7 @@ Marketplace connecting households with tradespeople. Next.js 16, React 19, TypeS
 
 **Honesty.** Never invent customers, reviews, ratings, user counts or press. Sample data stays labelled on screen as sample data. Do not claim a feature works if it is only simulated.
 
-**Privacy.** A provider sees a rough area until booked. The exact address goes only to the booked provider, and only while the job is live. Never log job text, messages, addresses or phone numbers. Never put personal data in URLs, except the household's own job words in `/job?q=`.
+**Privacy.** Real job words and rough areas go only to signed-in, ID-checked providers and the household itself. Visitors get a count per trade. A provider sees a rough area until booked. The exact address goes only to the booked provider, and only while the job is live. Never log job text, messages, addresses or phone numbers. Never put personal data in URLs, except the household's own job words in `/job?q=`.
 
 **Money.** The credit balance is always derived from the ledger and never trusted from the browser. Every credit movement needs an idempotency key. Card data never touches our servers.
 
@@ -34,6 +34,8 @@ Marketplace connecting households with tradespeople. Next.js 16, React 19, TypeS
 - `lib/match.ts`: words to trade, and emergency detection
 - `lib/contact-screen.ts`: chat screening
 - `lib/credits.ts`: credit ledger rules
+- `lib/market.ts`: filters for the jobs and workers lists
+- `lib/data/ads.ts`: banner spaces and booked ads
 - `lib/data/`: sample data, to be replaced by the database
 - `proxy.ts`: CSP and security headers
 - `supabase/migrations/`: schema and Row Level Security, not applied yet

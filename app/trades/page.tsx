@@ -5,8 +5,8 @@ import { TradeIndex } from "@/components/TradeIndex";
 import { tradesByLetter } from "@/lib/data/trades";
 
 export const metadata: Metadata = {
-  title: "Trades",
-  description: "Every trade on Oddjob, from plumbers and masons to tree cutters and gardeners.",
+  title: "Categories",
+  description: "Every kind of work on Oddjob, from plumbers and masons to tree cutters and gardeners.",
 };
 
 export default function TradesPage() {
@@ -14,7 +14,7 @@ export default function TradesPage() {
     <>
       <div id="top"><Nav /></div>
       <main className="page">
-        <h1 className="display page__title">Every trade</h1>
+        <h1 className="display head page__title--tight">What needs fixing?</h1>
         <TradeIndex trades={tradesByLetter()} />
       </main>
       <Footer />

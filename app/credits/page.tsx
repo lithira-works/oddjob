@@ -14,6 +14,9 @@ export default function CreditsPage() {
         <p style={{ marginBottom: 32 }}>
           These pictures show the world of each trade. None of them shows an Oddjob customer, worker or job. They are cropped to fit and otherwise unchanged.
         </p>
+        <p style={{ marginBottom: 32 }}>
+          Category icons are from <a className="link" href="https://lucide.dev" rel="noopener noreferrer" target="_blank">Lucide</a>, under the ISC licence.
+        </p>
         <ul className="creditlist">
           {credits.map((c) => (
             <li key={c.file}>

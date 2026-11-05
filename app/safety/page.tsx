@@ -42,7 +42,7 @@ export default function SafetyPage() {
               <tr><th scope="col">When</th><th scope="col" style={{ fontWeight: 500 }}>What they can see</th></tr>
             </thead>
             <tbody>
-              <tr><th scope="row">Before they reply</th><td>Your words, any photo you added, and a rough area</td></tr>
+              <tr><th scope="row">Before they reply</th><td>Your words, any photo you added, and a rough area. Only signed-in, ID-checked workers see this</td></tr>
               <tr><th scope="row">After they reply</th><td>A chat with you. Numbers, emails and links stay hidden</td></tr>
               <tr><th scope="row">After you book</th><td>Your exact address and a masked phone line</td></tr>
               <tr><th scope="row">After the job</th><td>Your first name and the job. The address is gone from their view</td></tr>

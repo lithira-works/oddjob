@@ -33,6 +33,7 @@ export default async function ProviderPage({ params }: Props) {
           <span className="cap">{trade.name}</span>, {provider.area}, {provider.years} years in the trade.
         </p>
         <p style={{ marginTop: 12 }}>{provider.about}</p>
+        <p style={{ marginTop: 12 }}><Link href={`/workers?trade=${trade.slug}`} className="link">More people in this trade</Link></p>
         <p className="sample-note" style={{ marginTop: 16 }}>Sample profile. This person, their jobs and figures are made up, and the pictures show the trade, not their work.</p>
 
         <div className="ledger pro__figs" data-ui="" data-reveal="">
