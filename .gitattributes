@@ -1,0 +1,4 @@
+# Store text with LF. Shell hooks break on other systems if they carry CRLF.
+* text=auto
+.githooks/* text eol=lf
+*.sh text eol=lf

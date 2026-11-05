@@ -1,0 +1,84 @@
+# Dependencies and build output
+node_modules/
+.next/
+out/
+build/
+dist/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Secrets. Only .env.example belongs in git.
+.env
+.env.*
+!.env.example
+*.env
+.envrc
+secrets/
+.secrets/
+*.secret
+credentials*.json
+service-account*.json
+*-service-account*.json
+*serviceaccount*.json
+.npmrc
+.netrc
+
+# Keys and certificates
+*.pem
+*.key
+*.p8
+*.p12
+*.pfx
+*.crt
+*.csr
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+id_ecdsa*
+
+# Customer data must never reach git: database copies, exports, ID scans, uploads
+*.sql.gz
+*.sql.zip
+*.dump
+*.bak
+*.backup
+*.sqlite
+*.sqlite3
+*.db
+*.csv
+*.xlsx
+backups/
+dumps/
+exports/
+uploads/
+user-data/
+id-documents/
+
+# Hosting and database tool state, which can hold tokens and project IDs
+.vercel/
+.netlify/
+.wrangler/
+.terraform/
+*.tfstate
+*.tfstate.*
+supabase/.temp/
+supabase/.branches/
+supabase/seed.local.sql
+
+# Local tool state, with paths and machine details
+.taste-skill/
+.claude/settings.local.json
+.claude/memory/
+.vscode/
+.idea/
+
+# Logs can hold job text, messages and phone numbers
+*.log
+logs/
+
+# Operating system
+.DS_Store
+Thumbs.db
+desktop.ini
