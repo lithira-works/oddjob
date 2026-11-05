@@ -12,7 +12,7 @@ export default function CreditsPage() {
       <main className="page">
         <h1 className="display page__title">Picture credits</h1>
         <p style={{ marginBottom: 32 }}>
-          These pictures show the world of each trade. None of them shows an Oddjob customer, worker or job. They are cropped to fit and otherwise unchanged.
+          These pictures show the world of each trade. None of them shows an Oddjob customer, worker or job. They are cropped to fit, and any other change is noted beside the picture.
         </p>
         <p style={{ marginBottom: 32 }}>
           Category icons are from <a className="link" href="https://lucide.dev" rel="noopener noreferrer" target="_blank">Lucide</a>, under the ISC licence.
@@ -25,6 +25,7 @@ export default function CreditsPage() {
               <a className="link" href={c.licenseUrl} rel="noopener noreferrer license" target="_blank">{c.license}</a>
               {". "}
               <a className="link" href={c.page} rel="noopener noreferrer" target="_blank">Source</a>
+              {c.changes ? `. ${c.changes}` : ""}
             </li>
           ))}
         </ul>

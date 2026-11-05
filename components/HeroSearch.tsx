@@ -180,15 +180,16 @@ export function HeroSearch() {
         <div className="hero__window">
           <div className="hero__reel" ref={reelRef} aria-hidden="true">
             <div className="hero__frame">
-              <Image src={prev.image} alt="" fill sizes="(max-width: 820px) 100vw, 36vw" loading="eager" />
+              <Image src={prev.image} alt="" fill sizes="(max-width: 820px) 100vw, 36vw" quality={85} loading="eager" />
             </div>
             {reel.map((s, i) => (
               <div className="hero__frame" key={s.image}>
-                <Image src={s.image} alt="" fill sizes="(max-width: 820px) 100vw, 36vw" priority={i === 0} />
+                <Image src={s.image} alt="" fill sizes="(max-width: 820px) 100vw, 36vw" quality={85} preload={i === 0} loading={i === reel.length - 1 ? "eager" : undefined} />
               </div>
             ))}
+            {/* Each end copy shares a picture with a frame above, and neither may be lazy: Next checks the largest paint by address. */}
             <div className="hero__frame">
-              <Image src={next.image} alt="" fill sizes="(max-width: 820px) 100vw, 36vw" />
+              <Image src={next.image} alt="" fill sizes="(max-width: 820px) 100vw, 36vw" quality={85} loading="eager" />
             </div>
           </div>
           <div className={`hero__typed ${typedPicture ? "is-on" : ""}`} aria-hidden="true">

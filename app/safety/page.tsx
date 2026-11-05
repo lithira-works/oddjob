@@ -51,13 +51,13 @@ export default function SafetyPage() {
         </section>
 
         <div className="pro__pic" data-reveal="shutter">
-          <Image src="/images/roof.jpg" alt="Red clay roof tiles with cracked mortar" fill sizes="100vw" />
+          <Image src="/images/roof.jpg" alt="A heap of broken red clay roof tiles" fill sizes="100vw" loading="eager" />
         </div>
 
         <section className="rules">
           <div className="rules__side">
             <h2 className="display">If you need work done</h2>
-            <div className="rules__pic" data-reveal="shutter"><Image src="/images/leak.jpg" alt="A rusted metal pipe with a leak at its base" fill sizes="(max-width: 820px) 100vw, 40vw" /></div>
+            <div className="rules__pic" data-reveal="shutter"><Image src="/images/leak.jpg" alt="A rusty outdoor tap dripping water against a blue sky" fill sizes="(max-width: 820px) 100vw, 40vw" /></div>
           </div>
           <div>{rules.households.map(([t, b]) => <div key={t} data-reveal="row"><h3>{t}</h3><p>{b}</p></div>)}</div>
         </section>

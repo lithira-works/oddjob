@@ -1,36 +1,39 @@
 [
   {
     "file": "/images/leak.jpg",
-    "title": "Leak in rusted pipe side view",
-    "creator": "Shamrock Lee",
-    "license": "CC BY 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Leak_in_rusted_pipe_side_view.jpg",
-    "credit": "\"Leak in rusted pipe side view\" by Shamrock Lee, CC BY 4.0, via Wikimedia Commons",
-    "width": 1600,
-    "height": 1200
+    "title": "Dripping tap water (2013)",
+    "creator": "Karthik916",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Dripping_tap_water_(2013).jpg",
+    "credit": "\"Dripping tap water (2013)\" by Karthik916, CC BY-SA 4.0, via Wikimedia Commons. Resized, sharpened and colour adjusted",
+    "changes": "Resized, sharpened and colour adjusted.",
+    "width": 1800,
+    "height": 2400
   },
   {
     "file": "/images/roof.jpg",
-    "title": "Red tile roof repair",
-    "creator": "Downtowngal",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Red_tile_roof_repair.jpg",
-    "credit": "\"Red tile roof repair\" by Downtowngal, CC BY-SA 3.0, via Wikimedia Commons",
-    "width": 1440,
-    "height": 1069
+    "title": "Broken red roof tiles 3",
+    "creator": "W.carter",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "page": "https://commons.wikimedia.org/wiki/File:Broken_red_roof_tiles_3.jpg",
+    "credit": "\"Broken red roof tiles 3\" by W.carter, CC0, via Wikimedia Commons. Resized, sharpened and colour adjusted",
+    "changes": "Resized, sharpened and colour adjusted.",
+    "width": 2400,
+    "height": 1600
   },
   {
     "file": "/images/fence.jpg",
-    "title": "Broken Fence (6078307739)",
-    "creator": "Jaysin Trevino from Evanston, IL, US",
+    "title": "Storm Damage - Broken Fence (17464953456)",
+    "creator": "Tony Webster from Minneapolis, Minnesota, United States",
     "license": "CC BY 2.0",
     "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Broken_Fence_(6078307739).jpg",
-    "credit": "\"Broken Fence (6078307739)\" by Jaysin Trevino from Evanston, IL, US, CC BY 2.0, via Wikimedia Commons",
-    "width": 1600,
-    "height": 1200
+    "page": "https://commons.wikimedia.org/wiki/File:Storm_Damage_-_Broken_Fence_(17464953456).jpg",
+    "credit": "\"Storm Damage - Broken Fence (17464953456)\" by Tony Webster from Minneapolis, Minnesota, United States, CC BY 2.0, via Wikimedia Commons. Cropped, resized, sharpened and colour adjusted",
+    "changes": "Cropped, resized, sharpened and colour adjusted.",
+    "width": 2170,
+    "height": 1952
   },
   {
     "file": "/images/tree.jpg",
@@ -39,9 +42,10 @@
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
     "page": "https://commons.wikimedia.org/w/index.php?curid=92270998",
-    "credit": "\"Abattage câblage 01\" by Moinats, CC BY-SA 4.0, via Wikimedia Commons",
-    "width": 1600,
-    "height": 1067
+    "credit": "\"Abattage câblage 01\" by Moinats, CC BY-SA 4.0, via Wikimedia Commons. Cropped, sharpened and colour adjusted",
+    "changes": "Cropped, sharpened and colour adjusted.",
+    "width": 1751,
+    "height": 1198
   },
   {
     "file": "/images/brick.jpg",

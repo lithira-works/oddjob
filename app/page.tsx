@@ -113,17 +113,6 @@ export default function HomePage() {
 
         <div className="section"><AdSlot slot="home-top" /></div>
 
-        <section className="section homedeals" aria-labelledby="deals-title">
-          <div className="homedeals__title">
-            <h2 id="deals-title" className="display head" data-reveal="">Money off the odd job</h2>
-            <p style={{ marginTop: 20 }}><Link href="/deals" className="link">See every deal</Link></p>
-          </div>
-          <div className="homedeals__list">
-            <DealList deals={offers.slice(0, 3)} />
-            <p className="small" style={{ marginTop: 12 }}>Sample offers. These are made up, and none can be redeemed yet.</p>
-          </div>
-        </section>
-
         <section className="section" aria-label="How it works">
           <div className="steps">
             <div className="step" data-reveal="">
@@ -173,6 +162,17 @@ export default function HomePage() {
             <div className="work__media" data-reveal="shutter">
               <Image src="/images/plane.jpg" alt="A wooden hand plane with curled shavings and a red pencil" fill sizes="(max-width: 820px) 100vw, 50vw" />
             </div>
+          </div>
+        </section>
+
+        <section className="section homedeals" aria-labelledby="deals-title">
+          <div className="homedeals__title">
+            <h2 id="deals-title" className="display head" data-reveal="">Money off the odd job</h2>
+            <p style={{ marginTop: 20 }}><Link href="/deals" className="link">See every deal</Link></p>
+          </div>
+          <div className="homedeals__list">
+            <DealList deals={offers.slice(0, 3)} />
+            <p className="small" style={{ marginTop: 12 }}>Sample offers. These are made up, and none can be redeemed yet.</p>
           </div>
         </section>
 

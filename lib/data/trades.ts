@@ -22,15 +22,15 @@ export type Trade = {
   weight?: number;
 };
 
-const leak = { image: "/images/leak.jpg", imageAlt: "A rusted metal pipe with a leak at its base" };
+const leak = { image: "/images/leak.jpg", imageAlt: "A rusty outdoor tap dripping water against a blue sky" };
 const fuses = { image: "/images/fuses.jpg", imageAlt: "Rows of circuit breakers in an open fuse box" };
 const plane = { image: "/images/plane.jpg", imageAlt: "A wooden hand plane with curled shavings and a red pencil" };
 const brick = { image: "/images/brick.jpg", imageAlt: "A mason in a straw hat laying a course of blocks" };
-const roof = { image: "/images/roof.jpg", imageAlt: "Red clay roof tiles with cracked mortar" };
+const roof = { image: "/images/roof.jpg", imageAlt: "A heap of broken red clay roof tiles" };
 const paint = { image: "/images/paint.jpg", imageAlt: "A roller painting a brick wall bright orange" };
-const tree = { image: "/images/tree.jpg", imageAlt: "Two tree workers in helmets among felled branches in a forest" };
+const tree = { image: "/images/tree.jpg", imageAlt: "Tall mossy tree trunks in a green forest" };
 const hedge = { image: "/images/hedge.jpg", imageAlt: "A green electric hedge trimmer lying on dry grass" };
-const fence = { image: "/images/fence.jpg", imageAlt: "A black metal fence with bent railings" };
+const fence = { image: "/images/fence.jpg", imageAlt: "A wooden fence bent over by a fallen tree trunk" };
 
 export const trades: Trade[] = [
   { slug: "plumber", name: "plumber", article: "a", group: "Water and power", jobs: "Leaks, taps, blocked drains", featured: true, ...leak,

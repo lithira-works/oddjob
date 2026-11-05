@@ -52,7 +52,7 @@ All live in `app/globals.css`. Do not add colours or sizes outside them. Blue st
 | Privacy | Full-height picture beside a table of who sees what |
 | Pricing | One sentence, with the price as a blue block |
 | FAQ | Wide heading, indented questions |
-| Close | Orange field: "Still leaking?" echoes the hero |
+| Close | Orange band: "Still leaking?" echoes the hero. Sections hug their content, with no empty full-height blocks |
 | Header | Sticks to the top of every page. A Categories menu holds every trade. Phones get bottom tabs instead, except on `/job` |
 | Footer | Black directory: Need a hand, Need work, popular services, Oddjob |
 | `/job` | Black job card held on the left, stage on the right |
@@ -82,7 +82,7 @@ Ads are first-party pictures and links, listed in `lib/data/ads.ts`. No ad netwo
 
 ## Pictures
 
-Current pictures are real and openly licensed, but they are stand-ins. Replace them with commissioned photographs of real local workers and jobs before launch. Never use AI-generated or stock people, and never imply a found picture shows an Oddjob job.
+Current pictures are real and openly licensed, but they are stand-ins. Any retouching stays mild, generates nothing, and is noted in the credits. Replace them with commissioned photographs of real local workers and jobs before launch. Never use AI-generated or stock people, and never imply a found picture shows an Oddjob job.
 
 ## Checking a change
 

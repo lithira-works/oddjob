@@ -45,7 +45,7 @@ export default async function ProviderPage({ params }: Props) {
         </div>
 
         <div className="pro__pic" data-reveal="shutter">
-          <Image src={trade.image} alt={trade.imageAlt} fill sizes="100vw" />
+          <Image src={trade.image} alt={trade.imageAlt} fill sizes="100vw" loading="eager" />
         </div>
 
         <section className="pro__jobs">
