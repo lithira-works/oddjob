@@ -7,6 +7,7 @@ Marketplace connecting households with tradespeople. Next.js 16, React 19, TypeS
 - `npm run dev`: development server
 - `npm run check`: type check, tests and production build. Run before saying work is done
 - `npm test`: unit tests only
+- `npm run admin:create -- your-email`: creates or replaces the admin account. Prints the password once, so run it in your own terminal
 - `npm run privacy`: scans files staged for git for secrets and personal data. Runs on pre-commit after `npm run hooks`, and in CI
 
 ## Rules that are easy to break
@@ -21,7 +22,11 @@ Marketplace connecting households with tradespeople. Next.js 16, React 19, TypeS
 
 **Money.** The credit balance is always derived from the ledger and never trusted from the browser. Every credit movement needs an idempotency key. Card data never touches our servers.
 
-**Secrets.** Only `.env.example` is committed. `SUPABASE_SERVICE_ROLE_KEY` and `ANTHROPIC_API_KEY` stay on the server: never prefix them with `NEXT_PUBLIC_`.
+**Secrets.** Only `.env.example` is committed. `SUPABASE_SERVICE_ROLE_KEY`, `ID_HASH_SECRET`, `ANTHROPIC_API_KEY`, `ADMIN_PASSWORD_HASH` and `ADMIN_SESSION_SECRET` stay on the server: never prefix them with `NEXT_PUBLIC_`.
+
+**Admin.** Every page under `app/admin/` calls `requireAdmin()` before reading any data. Never link to `/admin` from a public page, and never show a key's value on the dashboard.
+
+**Identity.** ID photos and numbers never reach logs, URLs or browser storage. Every API route uses `readJson` or the same checks. Do not set `ID_CHECKS_OPEN=true` until the list in `docs/SECURITY.md` is met. Never claim a check proves a document is genuine.
 
 **AI input.** User text and photos sent to Claude are untrusted. Claude gets no tools and no other users' data, its output is validated against a schema, and it never alone bans anyone or moves money.
 

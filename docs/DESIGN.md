@@ -59,6 +59,8 @@ All live in `app/globals.css`. Do not add colours or sizes outside them. Blue st
 | `/jobs` | Blue band with headline and tools, then categories beside job rows on tone. Blue always means the worker's side |
 | `/workers` | The same shape with a tone band. Rows carry each person's three ledger figures |
 | `/signup`, `/login` | Panel beside the form. The panel turns blue for a worker, tone for a household, ink for logging in |
+| `/verify` | One calm column with three named stages, one job per screen, and each photo's preview in place |
+| `/admin` | Black bar, with feedback on the left and a tone panel of site setup on the right. Items that need doing are in `--warm-strong`. Not linked from public pages |
 | `/feedback` | Wide heading, a short promise on the left, the form on the right |
 | `/trades` | Search, then trades in four groups, with a sticky picture |
 | `/trades/[slug]` | Blue panel of homes asking beside a tone panel of people |

@@ -4,8 +4,8 @@ import { Hammer, House } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { cleanFirstName, CODE_LENGTH, homeFor, isCodeShaped, MAX_CODE_TRIES, normalisePhone, type Side } from "@/lib/auth";
-import { PREVIEW_CODE, startPreviewSession } from "@/lib/preview-session";
+import { cleanFirstName, CODE_LENGTH, isCodeShaped, MAX_CODE_TRIES, normalisePhone, type Side } from "@/lib/auth";
+import { makePreviewCode, startPreviewSession } from "@/lib/preview-session";
 
 const PANELS: Record<"login" | Side, { title: string; lines: string[] }> = {
   login: { title: "Welcome back", lines: ["Your jobs and replies", "Your chats, with numbers hidden", "No password to remember"] },
@@ -28,6 +28,7 @@ export function AuthForm({ mode, initialSide }: { mode: "login" | "signup"; init
   const [firstName, setFirstName] = useState("");
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
+  const [previewCode, setPreviewCode] = useState("");
   const [step, setStep] = useState<"details" | "code">("details");
   const [tries, setTries] = useState(0);
   const [error, setError] = useState<{ field: "name" | "phone" | "code" | "form"; text: string } | null>(null);
@@ -48,6 +49,7 @@ export function AuthForm({ mode, initialSide }: { mode: "login" | "signup"; init
     setError(null);
     setTries(0);
     setCode("");
+    setPreviewCode(makePreviewCode());
     setStep("code");
   };
 
@@ -64,7 +66,7 @@ export function AuthForm({ mode, initialSide }: { mode: "login" | "signup"; init
       setError({ field: "code", text: `Enter all ${CODE_LENGTH} digits.` });
       return;
     }
-    if (code.trim() !== PREVIEW_CODE) {
+    if (code.trim() !== previewCode) {
       const used = tries + 1;
       if (used >= MAX_CODE_TRIES) {
         startOver("Too many wrong codes. Start again.");
@@ -76,7 +78,7 @@ export function AuthForm({ mode, initialSide }: { mode: "login" | "signup"; init
     }
     startPreviewSession(signup ? { firstName: cleanFirstName(firstName), side } : { firstName: null, side: null });
     setPhone("");
-    router.push(signup ? homeFor(side) : "/");
+    router.push(signup ? "/verify" : "/");
   };
 
   const lastDigits = (normalisePhone(phone) ?? "").slice(-2);
@@ -116,7 +118,7 @@ export function AuthForm({ mode, initialSide }: { mode: "login" | "signup"; init
             )}
             {signup && (
               <label className="field">
-                <span>First name</span>
+                <span>First name, as on your ID</span>
                 <input
                   className="input"
                   value={firstName}
@@ -151,7 +153,7 @@ export function AuthForm({ mode, initialSide }: { mode: "login" | "signup"; init
         ) : (
           <form onSubmit={checkCode} method="post" noValidate>
             <p className="lead auth__sent">Enter the code for the number ending {lastDigits}.</p>
-            <p className="sample-note auth__preview">Preview: no text was sent. The code is {PREVIEW_CODE}.</p>
+            <p className="sample-note auth__preview">Preview: no text was sent. The code is <span className="num">{previewCode}</span>.</p>
             <label className="field">
               <span>{CODE_LENGTH}-digit code</span>
               <input

@@ -5,8 +5,11 @@ import { z } from "zod";
 import { trades } from "@/lib/data/trades";
 import { matchTrade } from "@/lib/match";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
+import { readJson } from "@/lib/request-guard";
+import { safeText } from "@/lib/validation";
 
-const Body = z.object({ text: z.string().min(2).max(500) });
+const Body = z.strictObject({ text: safeText(2, 500) });
+const DAILY_CLAUDE_CALLS = 500;
 
 const Interpretation = z.object({
   tradeSlug: z.string(),
@@ -36,11 +39,13 @@ export async function POST(request: Request) {
   if (!limit.allowed) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } });
   }
-  const parsed = Body.safeParse(await request.json().catch(() => null));
-  if (!parsed.success) return NextResponse.json({ error: "Invalid text" }, { status: 400 });
-  const { text } = parsed.data;
+  const body = await readJson(request, Body);
+  if (!body.ok) return body.response;
+  const { text } = body.data;
 
-  if (!process.env.ANTHROPIC_API_KEY) return NextResponse.json(fallback(text));
+  // A daily ceiling across everyone, so no flood of requests can run up the bill.
+  const budget = rateLimit("interpret:all", DAILY_CLAUDE_CALLS, 24 * 60 * 60_000);
+  if (!process.env.ANTHROPIC_API_KEY || !budget.allowed) return NextResponse.json(fallback(text));
 
   try {
     const client = new Anthropic();

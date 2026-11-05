@@ -28,6 +28,7 @@ const SECRET_RULES = [
   { name: "GitHub token", pattern: /\b(gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,})\b/ },
   { name: "AWS access key", pattern: /\b(AKIA|ASIA)[A-Z0-9]{16}\b/ },
   { name: "Google API key", pattern: /\bAIza[A-Za-z0-9_-]{30,}\b/ },
+  { name: "Supabase secret key", pattern: /\bsb_secret_[A-Za-z0-9_-]{16,}/ },
   { name: "Stripe live key", pattern: /\b[spr]k_live_[A-Za-z0-9]{10,}\b/ },
   { name: "Slack token", pattern: /\bxox[abprs]-[A-Za-z0-9-]{10,}\b/ },
   { name: "private key block", pattern: /-----BEGIN [A-Z ]*PRIVATE KEY-----/ },

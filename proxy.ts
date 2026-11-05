@@ -1,7 +1,14 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+/** Only a real Supabase address is allowed through, so a bad setting can't widen the policy. */
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+const SUPABASE_SOURCES = /^https:\/\/[a-z0-9]+\.supabase\.co$/.test(SUPABASE_URL)
+  ? ` ${SUPABASE_URL} ${SUPABASE_URL.replace("https://", "wss://")}`
+  : "";
+
 /**
- * Sets a per-request Content Security Policy and the standard security headers.
+ * Sets a per-request Content Security Policy. The other security headers, which never change
+ * per request, are in next.config.ts so they also cover pictures and static files.
  * Scripts need the nonce. Styles allow inline because React style attributes and the
  * animation library set them. See docs/SECURITY.md.
  */
@@ -16,7 +23,10 @@ export function proxy(request: NextRequest) {
     "img-src 'self' data: blob:",
     "media-src 'self'",
     "font-src 'self'",
-    `connect-src 'self'${isDev ? " ws: wss:" : ""}`,
+    `connect-src 'self'${SUPABASE_SOURCES}${isDev ? " ws: wss:" : ""}`,
+    "frame-src 'none'",
+    "worker-src 'self'",
+    "manifest-src 'self'",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
@@ -30,14 +40,6 @@ export function proxy(request: NextRequest) {
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set("Content-Security-Policy", csp);
-  response.headers.set("X-Content-Type-Options", "nosniff");
-  response.headers.set("X-Frame-Options", "DENY");
-  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()");
-  response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
-  if (!isDev) {
-    response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
-  }
   return response;
 }
 

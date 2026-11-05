@@ -27,6 +27,13 @@ describe("forbidden files", () => {
   });
 });
 
+describe("Supabase keys", () => {
+  it("catches a secret key, but not the publishable one", () => {
+    expect(rules("lib/x.ts", `const k = "${"sb_" + "secret_"}${"a".repeat(24)}";`)).toContain("secret: Supabase secret key");
+    expect(rules("lib/x.ts", `const k = "${"sb_" + "publishable_"}${"a".repeat(24)}";`)).toEqual([]);
+  });
+});
+
 describe("secrets", () => {
   it.each([
     ["Anthropic", "key = " + "sk-" + "ant-" + "a".repeat(30)],

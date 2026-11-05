@@ -7,6 +7,7 @@ import { repliesFor, type Provider } from "@/lib/data/providers";
 import { tradeBySlug, tradesByLetter } from "@/lib/data/trades";
 import { matchTrade } from "@/lib/match";
 import { money, protectionFee } from "@/lib/money";
+import { validateJob, type JobErrors } from "@/lib/validation";
 
 type Stage = "draft" | "quoted" | "booked" | "done" | "guaranteed";
 const TRACK: { id: Stage; label: string }[] = [
@@ -51,6 +52,9 @@ export function JobFlow({ initialWords, initialTrade }: { initialWords: string; 
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
   const [problem, setProblem] = useState(false);
+  const [errors, setErrors] = useState<JobErrors>({});
+  const [formError, setFormError] = useState<string | null>(null);
+  const [checking, setChecking] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
 
   const match = useMemo(() => matchTrade(words), [words]);
@@ -63,6 +67,43 @@ export function JobFlow({ initialWords, initialTrade }: { initialWords: string; 
   const go = (next: Stage) => {
     setStage(next);
     requestAnimationFrame(() => stageRef.current?.scrollIntoView({ block: "nearest" }));
+  };
+
+  /** Quick check here, then the server's check, which is the one that counts. */
+  const submitJob = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (blocked || checking) return;
+    const fields = { words, area, when, trade: override || match.trade?.slug || "" };
+    const local = validateJob(fields);
+    if (!local.ok) {
+      setErrors(local.errors);
+      setFormError(null);
+      return;
+    }
+    setErrors({});
+    setFormError(null);
+    setChecking(true);
+    try {
+      const response = await fetch("/api/jobs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fields),
+      });
+      if (response.ok) {
+        go("quoted");
+      } else if (response.status === 422) {
+        const body = (await response.json()) as { errors?: JobErrors };
+        setErrors(body.errors ?? {});
+      } else if (response.status === 429) {
+        setFormError("That’s a lot of requests at once. Please wait a minute and try again.");
+      } else {
+        setFormError("We couldn’t check your job. Please try again.");
+      }
+    } catch {
+      setFormError("We couldn’t reach Oddjob. Check your connection and try again.");
+    } finally {
+      setChecking(false);
+    }
   };
 
   const pick = (slug: string) => {
@@ -115,15 +156,20 @@ export function JobFlow({ initialWords, initialTrade }: { initialWords: string; 
           <>
             <h1 className="display">Say what’s wrong</h1>
             {match.emergency && <p className="alert" role="alert" style={{ marginBottom: 20, maxWidth: "none" }}>{EMERGENCY_TEXT[match.emergency]}</p>}
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (!blocked && words.trim()) go("quoted");
-              }}
-            >
+            <form onSubmit={submitJob} noValidate>
               <label className="field">
                 <span>In your own words</span>
-                <textarea className="input" required maxLength={500} value={words} onChange={(e) => setWords(e.target.value)} placeholder="Water under the kitchen sink" />
+                <textarea
+                  className="input"
+                  required
+                  maxLength={500}
+                  value={words}
+                  onChange={(e) => setWords(e.target.value)}
+                  placeholder="Water under the kitchen sink"
+                  aria-invalid={Boolean(errors.words)}
+                  aria-describedby={errors.words ? "job-words-error" : undefined}
+                />
+                {errors.words && <small className="field__error" id="job-words-error" role="alert">{errors.words}</small>}
               </label>
               <label className="field">
                 <span>Who should see this?</span>
@@ -138,7 +184,17 @@ export function JobFlow({ initialWords, initialTrade }: { initialWords: string; 
               </label>
               <label className="field">
                 <span>Rough area</span>
-                <input className="input" value={area} maxLength={60} onChange={(e) => setArea(e.target.value)} placeholder="Neighbourhood, not your address" autoComplete="off" />
+                <input
+                  className="input"
+                  value={area}
+                  maxLength={60}
+                  onChange={(e) => setArea(e.target.value)}
+                  placeholder="Neighbourhood, not your address"
+                  autoComplete="off"
+                  aria-invalid={Boolean(errors.area)}
+                  aria-describedby={errors.area ? "job-area-error" : undefined}
+                />
+                {errors.area && <small className="field__error" id="job-area-error" role="alert">{errors.area}</small>}
               </label>
               <fieldset className="field">
                 <legend>When?</legend>
@@ -154,7 +210,10 @@ export function JobFlow({ initialWords, initialTrade }: { initialWords: string; 
               {blocked ? (
                 <p className="alert" style={{ maxWidth: "none" }}>Care work opens after identity, reference and police checks are in place. We can’t send this job yet.</p>
               ) : (
-                <button className="btn" type="submit" disabled={!words.trim()}>Send to up to 5 people</button>
+                <>
+                  {formError && <p className="alert" role="alert" style={{ marginBottom: 20, maxWidth: "none" }}>{formError}</p>}
+                  <button className="btn" type="submit" disabled={!words.trim() || checking}>{checking ? "Checking" : "Send to up to 5 people"}</button>
+                </>
               )}
             </form>
           </>

@@ -112,6 +112,12 @@ language sql stable security definer set search_path = '' as $$
   select coalesce(sum(l.amount), 0) from public.credit_ledger l where l.provider_id = target_provider;
 $$;
 
+-- Security definer, so a visitor reading provider profiles never needs access to jobs.
+create function booked_me(target_household uuid) returns boolean
+language sql stable security definer set search_path = '' as $$
+  select exists (select 1 from public.jobs j where j.household_id = target_household and j.booked_provider_id = auth.uid());
+$$;
+
 -- All a visitor may learn about jobs: a count per trade. No words, areas or people.
 create function open_job_counts() returns table (trade_slug text, open_jobs bigint)
 language sql stable security definer set search_path = '' as $$
@@ -154,7 +160,7 @@ alter table audit_log enable row level security;
 create policy "profiles readable" on profiles for select using (
   id = auth.uid()
   or role = 'provider'
-  or exists (select 1 from jobs j where j.household_id = profiles.id and j.booked_provider_id = auth.uid())
+  or booked_me(id)
 );
 create policy "own profile update" on profiles for update using (id = auth.uid()) with check (id = auth.uid() and role = (select p.role from profiles p where p.id = auth.uid()));
 
@@ -199,8 +205,18 @@ create policy "messages visible to both sides" on messages for select using (
 create policy "own ledger" on credit_ledger for select using (provider_id = auth.uid());
 -- Ledger and audit log have no client write policies. Writes happen only in answer_job or on the server.
 
-revoke update (id_checked_at, suspended_at) on providers from authenticated;
-revoke all on function answer_job(uuid, int, int) from public;
-grant execute on function answer_job(uuid, int, int) to authenticated;
-revoke all on function open_job_counts() from public;
-grant execute on function open_job_counts() to anon, authenticated;
+-- Explicit access. Create the project with "Automatically expose new tables" off.
+-- Table-wide grants would override column limits, so a provider could mark their own ID as checked.
+revoke all on all tables in schema public from anon, authenticated;
+grant usage on schema public to anon, authenticated;
+
+grant select on profiles, providers to anon;
+grant select on profiles, providers, contact_details, jobs, job_addresses, job_answers, messages, credit_ledger to authenticated;
+grant update (display_name) on profiles to authenticated;
+grant update (trade_slugs, about, service_area, service_radius_km) on providers to authenticated;
+grant insert on jobs, job_addresses to authenticated;
+grant update (words, trade_slug, rough_area, rough_area_label, needed_by, status, booked_provider_id) on jobs to authenticated;
+
+revoke all on function provider_answered(uuid), credit_balance(uuid), booked_me(uuid), answer_job(uuid, int, int), open_job_counts() from public, anon, authenticated;
+grant execute on function booked_me(uuid), open_job_counts() to anon, authenticated;
+grant execute on function provider_answered(uuid), answer_job(uuid, int, int) to authenticated;

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { safeText } from "./validation";
 
 export const FEEDBACK_KINDS = {
   problem: "Something’s wrong",
@@ -12,6 +13,6 @@ export const FEEDBACK_MAX = 1000;
 
 export const FeedbackInput = z.strictObject({
   kind: z.enum(Object.keys(FEEDBACK_KINDS) as [FeedbackKind, ...FeedbackKind[]]),
-  message: z.string().trim().min(FEEDBACK_MIN).max(FEEDBACK_MAX),
+  message: safeText(FEEDBACK_MIN, FEEDBACK_MAX),
 });
 export type Feedback = z.infer<typeof FeedbackInput>;

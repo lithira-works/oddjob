@@ -1,16 +1,21 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import type { Side } from "./auth";
+import { CODE_LENGTH, type Side } from "./auth";
 
 /**
  * PREVIEW ONLY. Not authentication: it proves nothing and unlocks nothing. It lets the header
  * show the signed-in state. Holds a first name and a side in this tab, and never a phone number.
  * Replace with a server session when accounts exist.
  */
-export const PREVIEW_CODE = "123456";
 
-export type PreviewSession = { firstName: string | null; side: Side | null };
+/** A new code each time, shown on screen. No code is ever written into the site. */
+export function makePreviewCode() {
+  const [value = 0] = crypto.getRandomValues(new Uint32Array(1));
+  return String(value % 10 ** CODE_LENGTH).padStart(CODE_LENGTH, "0");
+}
+
+export type PreviewSession = { firstName: string | null; side: Side | null; idCheck?: "preview-submitted" };
 
 const KEY = "oddjob-preview-session";
 const listeners = new Set<() => void>();

@@ -24,7 +24,12 @@ export function rateLimit(key: string, limit: number, windowMs: number, now = Da
   };
 }
 
-export function clientKey(headers: Headers, scope: string) {
-  const ip = headers.get("x-forwarded-for")?.split(",")[0]?.trim() || headers.get("x-real-ip") || "unknown";
-  return `${scope}:${ip}`;
+/**
+ * Anyone can fake a forwarded-IP header, so only the one the host overwrites is believed.
+ * Set TRUSTED_IP_HEADER when deploying, such as x-real-ip on Vercel. Until then everyone
+ * shares one limit, which is strict but can't be dodged.
+ */
+export function clientKey(headers: Headers, scope: string, trustedHeader = process.env.TRUSTED_IP_HEADER) {
+  const ip = trustedHeader ? headers.get(trustedHeader)?.split(",")[0]?.trim() : undefined;
+  return `${scope}:${ip || "shared"}`;
 }

@@ -14,12 +14,13 @@ No site is unhackable. The goal is to make attacks hard, limit the damage and re
 | Account takeover | Phone OTP with short expiry and attempt limits. Passkeys for providers. Passkey or hardware key for admins. Re-check before changing a phone or payout account | Planned |
 | SIM swap and SMS fraud | Hold payouts after a phone change. Limit OTP sends per number, IP and country | Planned |
 | Payment and credit fraud | Hosted payment pages. Verified, idempotent webhooks. Server-side ledger | Ledger rules built and drafted in SQL. Payments planned |
-| Fake providers and leads | ID and liveness checks, device and duplicate signals, review queue | Planned |
-| Malicious uploads | Allow-listed types, malware scan, re-encoded images, stripped location data, separate domain | Planned |
+| Fake providers, households and leads | Everyone confirms their ID before posting or answering. Name must match the account, NIC must be valid and show 18 or older, one ID per account by keyed hash, private files, human review, audit log. Liveness and document-forgery checks need a vendor | Rules built and tested. Screens run on preview rules with no upload. `/api/identity` and migration `0002` are written but have never run. Vendor not chosen |
+| Malicious uploads | Allow-listed types by file bytes, images rebuilt from pixels, stripped location data, private bucket. Malware scanner and separate domain still planned | Identity photos: built and tested in `lib/identity-store.ts`, route closed. Job photos not built |
+| Forged requests and floods | Same-site check, JSON only, size limits read from the stream, strict schemas, rate limits that ignore faked IP headers, daily ceiling on Claude calls | Built and tested against the running site. Limits are per server until a shared store exists |
 | Injection and XSS | Parameterized queries, Zod validation, output escaping, strict CSP | Zod, React escaping and CSP built |
 | Clickjacking and sniffing | `frame-ancestors`, `X-Frame-Options`, `nosniff`, HSTS | Built in `proxy.ts` |
 | Prompt injection in AI features | User text and photos are untrusted. No tools or other users' data. Fixed schema, slug checked against the list. Claude never alone bans or moves money | Built in `/api/interpret`, not yet run against the live API |
-| Stolen admin access | Least-privilege roles, audited actions, separate admin app, second approver for refunds and exports | Planned. `audit_log` table drafted |
+| Stolen admin access | Hashed password (scrypt), 4-hour signed session in a Secure, HttpOnly, SameSite=Strict cookie, 5 tries per 15 minutes, server check on every admin page, no public link. Before it sees personal data or changes anything: passkey or hardware key, one account per person, least-privilege roles, audited actions, separate admin app, second approver for refunds and exports | Read-only login built and tested. Rest planned. `audit_log` table drafted |
 | DDoS and bots | CDN and WAF, edge rate limits | Planned at deployment |
 | Compromised npm packages | Lockfile, Renovate or Dependabot, secret scanning, CI security checks. Patch critical Next.js releases within 48 hours | Lockfile built. Rest planned |
 
@@ -32,7 +33,7 @@ Every page renders dynamically because the nonce needs it. Use a CDN for images 
 ## Data protection
 
 - **Collect less:** keep only what is needed, and delete on a fixed schedule.
-- **ID documents:** use a verification vendor and store only the result. If files must be stored, use a private bucket, short-lived signed URLs and logged access.
+- **ID documents:** use a verification vendor and store only the result. If files must be stored, use a private bucket, short-lived signed URLs and logged access. Never set `ID_CHECKS_OPEN=true` before all of these exist: real accounts, a lawyer-reviewed privacy policy covering Sri Lanka's Personal Data Protection Act, trained reviewers, a working job that deletes photos at `purge_after`, and an applied, tested `0002` migration. A photo of an ID can't prove it's genuine or belongs to the sender. Treat approval as strong evidence, not proof.
 - **Encryption:** TLS and HSTS everywhere, encryption at rest, field-level encryption for addresses and ID numbers.
 - **Secrets:** use a secrets manager, never the code. The Supabase `service_role` key stays on the server only.
 - **Backups:** encrypted, stored separately, with a restore test each quarter.

@@ -838,6 +838,32 @@ textarea.input { min-height: 112px; resize: vertical; }
   .auth__main { max-width: none; }
 }
 
+/* ---------- Identity check ---------- */
+.verify__page { padding: clamp(20px, 3vw, 48px) var(--margin) var(--section-gap); }
+.verify, .verify__alone, .verify__done { width: 100%; max-width: 40rem; margin-inline: auto; }
+.verify__alone, .verify__done { display: grid; justify-items: start; gap: 16px; }
+.verify__done .tradeicon, .verify__done > svg { color: var(--accent); }
+.verify__track { display: flex; gap: 4px; margin-bottom: 20px; font-size: var(--step-small); font-weight: 500; }
+.verify__track li { flex: 1 1 0; display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 8px; background: var(--surface); border-radius: var(--radius); text-align: center; line-height: 1.15; }
+.verify__track li.is-now { background: var(--ink); color: #fff; }
+.verify__track li.is-past { background: var(--surface-strong); }
+.verify__title { font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 12px; }
+.verify__why { margin-bottom: 24px; }
+.verify__consent { margin-top: 20px; }
+.verify__consent + .field__error { display: block; margin-top: 8px; }
+.verify__send { margin-top: 20px; }
+.photo__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 20px; }
+.photo { display: grid; gap: 6px; }
+.photo__drop { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 200px; padding: 16px; background: var(--surface); border-radius: var(--radius); text-align: center; cursor: pointer; transition: background-color var(--t-hover) ease; }
+.photo__drop > svg { color: var(--accent); }
+.photo__drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.photo__drop:focus-within { outline: 3px solid var(--accent); outline-offset: 3px; }
+.photo__drop:active { background: var(--surface-strong); }
+.photo__drop img { max-width: 100%; max-height: 140px; border-radius: var(--radius); object-fit: contain; }
+.photo__label { font-weight: 500; line-height: 1.2; }
+@media (hover: hover) and (pointer: fine) { .photo__drop:hover { background: var(--surface-strong); } }
+@media (max-width: 480px) { .photo__row { grid-template-columns: minmax(0, 1fr); } }
+
 /* ---------- Feedback ---------- */
 .feedback { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px clamp(12px, 1.6vw, 24px); align-items: start; }
 .feedback__about { display: grid; gap: 16px; }
@@ -935,3 +961,36 @@ textarea.input { min-height: 112px; resize: vertical; }
 /* Capitalises only the first letter, so "Fence and gate fixer" reads as written. */
 .cap { display: inline-block; }
 .cap::first-letter { text-transform: uppercase; }
+
+/* Admin */
+.admin__bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: var(--nav-h); padding: 8px var(--margin); background: var(--ink); color: var(--on-accent); }
+.admin__who { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.admin__email { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.admin { padding: clamp(24px, 3vw, 48px) var(--margin) var(--section-gap); }
+.admin__title { font-size: var(--step-head); margin-bottom: clamp(24px, 3vw, 48px); }
+.admin__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 40px clamp(24px, 4vw, 64px); align-items: start; }
+.admin__head { font-size: var(--step-lead); font-weight: 500; line-height: 1.2; margin-bottom: 16px; }
+.admin__filters { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 24px; }
+.admin__filters a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; background: var(--surface); border-radius: var(--radius); font-size: var(--step-small); font-weight: 500; transition: background-color var(--t-hover) ease; }
+.admin__filters a:hover { background: var(--surface-strong); }
+.admin__filters a[aria-current="page"] { background: var(--ink); color: var(--on-accent); }
+.admin__notes { display: grid; gap: 32px; }
+.admin__meta { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 4px; font-size: var(--step-small); }
+.admin__meta b { font-weight: 500; }
+.admin__note { max-width: 70ch; white-space: pre-wrap; overflow-wrap: anywhere; }
+.admin__status { padding: clamp(20px, 2vw, 32px); background: var(--surface); border-radius: var(--radius); }
+.admin__table { width: 100%; border-collapse: collapse; }
+.admin__table th, .admin__table td { padding: 12px 0; text-align: left; vertical-align: top; border-top: 1px solid var(--surface-strong); font-size: var(--step-small); line-height: 1.35; }
+.admin__table th { width: 45%; padding-right: 16px; font-weight: 500; }
+.admin__table td.is-todo { color: var(--warm-strong); font-weight: 500; }
+.admin__limits { margin-top: 16px; }
+.admin__login { min-height: 100svh; }
+.admin__about { margin-bottom: 24px; }
+.admin__error { margin-bottom: 20px; }
+@media (max-width: 820px) {
+  .admin__bar { min-height: 56px; }
+  .admin__grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 480px) {
+  .admin__email { display: none; }
+}

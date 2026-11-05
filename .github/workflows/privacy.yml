@@ -35,3 +35,5 @@ jobs:
       - run: npm ci
       - run: npm audit --omit=dev --audit-level=high
       - run: npm run check
+      # The browser's files must never hold a secret key.
+      - run: "! grep -rlE 'sb_secret_|SUPABASE_SERVICE_ROLE_KEY|ANTHROPIC_API_KEY|ADMIN_PASSWORD_HASH|ADMIN_SESSION_SECRET' .next/static"

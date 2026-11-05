@@ -16,6 +16,7 @@ Last updated 2026-11-05. This is a working front-end preview, not a launch-ready
 - Category pages at `/trades/[slug]`, showing homes asking and people listed side by side.
 - Header that stays on screen, with a Categories menu of all 27 trades, and bottom tabs on phones except on `/job`. Footer directory for households, workers and popular services.
 - Feedback at `/feedback`: validated, rate limited, and saved to `user-data/feedback.jsonl`, which git ignores. It keeps the note and time, with no IP address. Hosting without a lasting disk answers with an error until this moves to the database.
+- Admin at `/admin`: one account, created with `npm run admin:create`. It shows saved feedback and which parts of the site are set up, and changes nothing. Tested against forged cookies, cross-site logins and repeated guesses on a production build. No public page links to it. On a host with no lasting disk there is no feedback to show, for the reason above.
 - Banner spaces with date windows, on the homepage, both lists, deals and category pages. `lib/data/ads.ts` holds the bookings, and there are none yet, so each space offers itself for hire.
 
 ## Simulated: looks real, does nothing real
@@ -32,13 +33,16 @@ Last updated 2026-11-05. This is a working front-end preview, not a launch-ready
 | Offers and deals | All fictional, from `lib/data/offers.ts`. Labelled on screen. None can be redeemed |
 | Ad booking | Not open. No prices, no payment, no contact route on `/advertise`. Ads are added by editing `lib/data/ads.ts` |
 | Worker listing | Sample profiles only. Nobody can list themselves until accounts exist |
-| Sign-in and accounts | `/signup` and `/login` run the full phone-code flow on preview rules, and say so on screen. No text is sent, no account is stored, and the code is fixed. The header's signed-in state lives in the browser tab and unlocks nothing. Real accounts need Supabase and an SMS provider, as planned in `docs/SECURITY.md` |
-| ID checks | None. The profile "checks" are sample text |
+| Sign-in and accounts | `/signup` and `/login` run the full phone-code flow on preview rules, and say so on screen. No text is sent, no account is stored, and the code is random and shown on screen. The header's signed-in state lives in the browser tab and unlocks nothing. Real accounts need Supabase and an SMS provider, as planned in `docs/SECURITY.md` |
+| ID checks | `/verify` runs after sign-up, with every rule and hostile-file check, but uploads nothing and says so. No person reviews anything. The profile "checks" are sample text. `/api/identity` stays closed until `ID_CHECKS_OPEN=true`: see `docs/SECURITY.md` for what must exist first |
+| Job form | `/api/jobs` validates each job on the server, then saves nothing |
 | Photo upload | Not built |
 
 ## Written but not run
 
-- `supabase/migrations/0001_init.sql`: never applied to a database. Its Row Level Security needs automated tests before use.
+- `supabase/migrations/0001_init.sql` and `0002_identity_checks.sql`: never applied to a database. Their Row Level Security needs automated tests before use. The site has Supabase keys in `.env.local`, and no page reads from it yet.
+- `/api/identity`: its rules and image handling are tested, but the route has only been seen refusing requests. Saving a real check has never run.
+- `review_identity()` is the only way to approve someone, from the SQL Editor. There is no reviewer screen, and nothing deletes ID photos at `purge_after` yet.
 - `/api/interpret` with Claude: tested only in its keyword fallback, because no API key was set. The Claude path compiles but has never run. The job form does not call this route yet.
 
 ## Promises on the site that must be true before launch
@@ -56,6 +60,7 @@ The site describes planned behaviour as fact, so the design can be judged. Each 
 
 ## Known gaps
 
+- Admin login has a password but no second factor, and only one account. A stolen session cookie works until it expires, up to 4 hours, unless `npm run admin:create` replaces the account. Add a second factor, one account per person and an audit log before the dashboard can see personal data or change anything. Login limits are per server, like other rate limits.
 - `/jobs`, the homepage and `/trades/[slug]` show job words to anyone, which is fine only for sample data. Decided: real job words and rough areas go only to signed-in, ID-checked workers and the household itself. Visitors get a count per trade from `open_job_counts()`. These pages must follow that rule when they move to the database.
 - Checked workers can read `household_id` on open jobs, which links one household's jobs together. Serve the board through a view or server route without that column.
 - `/job?q=` puts the household's own words in the URL, which can reach logs and browser history. Change to POST when real jobs exist.
