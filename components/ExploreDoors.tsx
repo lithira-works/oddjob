@@ -1,29 +1,38 @@
+import { Briefcase, Users } from "lucide-react";
 import Link from "next/link";
 import { marketHref } from "@/lib/market";
 
 const DOORS = {
-  jobs: { path: "/jobs", title: "Homes that need help", note: "For people who do the work. Answer the jobs you want." },
-  workers: { path: "/workers", title: "People ready to work", note: "For households. Compare people by the work they’ve done." },
+  jobs: { path: "/jobs", label: "Find work", Icon: Briefcase },
+  workers: { path: "/workers", label: "Find workers", Icon: Users },
 } as const;
 
-/** The two sides of the market. The page you are on is the headline, and the other is one tap away. */
-export function ExploreDoors({ side, trade }: { side: keyof typeof DOORS; trade?: string }) {
+/** The band at the top of both lists: which side you're on, a headline, and the tools. */
+export function ExploreBand({ side, trade, title, action, children }: {
+  side: keyof typeof DOORS;
+  trade?: string;
+  title: string;
+  action?: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
-    <div className="doors">
-      {(Object.keys(DOORS) as (keyof typeof DOORS)[]).map((key) => {
-        const door = DOORS[key];
-        return key === side ? (
-          <div className="door is-on" key={key}>
-            <h1 className="display door__title">{door.title}</h1>
-            <span className="door__note">{door.note}</span>
-          </div>
-        ) : (
-          <Link className="door" key={key} href={marketHref(door.path, { trade })}>
-            <span className="display door__title">{door.title}</span>
-            <span className="door__note">{door.note}</span>
-          </Link>
-        );
-      })}
-    </div>
+    <header className={`band band--${side} ${side === "jobs" ? "on-accent" : ""}`}>
+      <nav className="doors" aria-label="Sides of the market">
+        {(Object.keys(DOORS) as (keyof typeof DOORS)[]).map((key) => {
+          const { path, label, Icon } = DOORS[key];
+          return (
+            <Link key={key} className={`door ${key === side ? "is-on" : ""}`} href={marketHref(path, { trade })} aria-current={key === side ? "page" : undefined}>
+              <Icon size={18} strokeWidth={1.75} aria-hidden="true" />
+              {label}
+            </Link>
+          );
+        })}
+      </nav>
+      <div className="band__head">
+        <h1 className="display band__title">{title}</h1>
+        {action}
+      </div>
+      {children}
+    </header>
   );
 }

@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "Picture credits" };
 export default function CreditsPage() {
   return (
     <>
-      <div id="top"><Nav /></div>
+      <Nav />
       <main className="page">
         <h1 className="display page__title">Picture credits</h1>
         <p style={{ marginBottom: 32 }}>

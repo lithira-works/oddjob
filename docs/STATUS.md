@@ -14,6 +14,8 @@ Last updated 2026-11-05. This is a working front-end preview, not a launch-ready
 - Unit tests for matching, screening, credits, market filters and ad rules.
 - Two separate lists: `/jobs` (homes that need help, blue) and `/workers` (people ready to work, white), each with category, search and sort filters. Choosing a category carries across both.
 - Category pages at `/trades/[slug]`, showing homes asking and people listed side by side.
+- Header that stays on screen, with a Categories menu of all 27 trades, and bottom tabs on phones except on `/job`. Footer directory for households, workers and popular services.
+- Feedback at `/feedback`: validated, rate limited, and saved to `user-data/feedback.jsonl`, which git ignores. It keeps the note and time, with no IP address. Hosting without a lasting disk answers with an error until this moves to the database.
 - Banner spaces with date windows, on the homepage, both lists, deals and category pages. `lib/data/ads.ts` holds the bookings, and there are none yet, so each space offers itself for hire.
 
 ## Simulated: looks real, does nothing real
@@ -30,7 +32,7 @@ Last updated 2026-11-05. This is a working front-end preview, not a launch-ready
 | Offers and deals | All fictional, from `lib/data/offers.ts`. Labelled on screen. None can be redeemed |
 | Ad booking | Not open. No prices, no payment, no contact route on `/advertise`. Ads are added by editing `lib/data/ads.ts` |
 | Worker listing | Sample profiles only. Nobody can list themselves until accounts exist |
-| Sign-in and accounts | None |
+| Sign-in and accounts | `/signup` and `/login` run the full phone-code flow on preview rules, and say so on screen. No text is sent, no account is stored, and the code is fixed. The header's signed-in state lives in the browser tab and unlocks nothing. Real accounts need Supabase and an SMS provider, as planned in `docs/SECURITY.md` |
 | ID checks | None. The profile "checks" are sample text |
 | Photo upload | Not built |
 

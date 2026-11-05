@@ -30,7 +30,7 @@ export default async function TradePage({ params }: Props) {
 
   return (
     <>
-      <div id="top"><Nav action={false} /></div>
+      <Nav action={false} />
       <main className="page">
         <div className="cat__head">
           <div>

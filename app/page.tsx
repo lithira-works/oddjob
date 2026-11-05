@@ -222,11 +222,11 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="close on-dark" aria-label="Find someone">
+        <section className="close on-warm" aria-label="Find someone">
           <h2 className="display" data-reveal="">Still leaking?</h2>
           <div className="close__foot">
             <p data-reveal="" style={{ "--i": 1 } as React.CSSProperties}>Say what’s wrong. It takes less time than finding a bucket.</p>
-            <Link href="/job" className="btn" data-reveal="" style={{ "--i": 2 } as React.CSSProperties}>Find someone</Link>
+            <Link href="/job" className="btn btn--ink" data-reveal="" style={{ "--i": 2 } as React.CSSProperties}>Find someone</Link>
           </div>
         </section>
       </main>

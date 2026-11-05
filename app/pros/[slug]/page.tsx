@@ -21,7 +21,7 @@ export default async function ProviderPage({ params }: Props) {
 
   return (
     <>
-      <div id="top"><Nav /></div>
+      <Nav />
       <main className="page">
         <div className="pro__head">
           <h1 className="display">{provider.name}</h1>

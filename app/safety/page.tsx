@@ -32,7 +32,7 @@ const rules = {
 export default function SafetyPage() {
   return (
     <>
-      <div id="top"><Nav /></div>
+      <Nav />
       <main className="page">
         <h1 className="display page__title">Who sees what</h1>
         <section className="facts">

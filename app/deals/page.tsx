@@ -21,7 +21,7 @@ export default async function DealsPage({ searchParams }: { searchParams: Promis
 
   return (
     <>
-      <div id="top"><Nav /></div>
+      <Nav />
       <main className="page">
         <h1 className="display head page__title--tight">Money off the odd job</h1>
         <p className="sample-note" style={{ marginBottom: 24 }}>Sample offers. These are made up, and none can be redeemed yet.</p>

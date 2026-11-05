@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function AdvertisePage() {
   return (
     <>
-      <div id="top"><Nav /></div>
+      <Nav />
       <main className="page">
         <h1 className="display head page__title--tight">Put your ad here</h1>
         <p className="lead">Tools, paint, hardware and building supplies, seen by people with a job to do.</p>

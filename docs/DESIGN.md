@@ -10,7 +10,7 @@ Direction from the taste skill: "The sentence is the layout", seed 1806243002. T
 
 ## Tokens
 
-All live in `app/globals.css`. Do not add colours or sizes outside them.
+All live in `app/globals.css`. Do not add colours or sizes outside them. Blue still marks the worker side; orange never does.
 
 | Token | Value | Use |
 | --- | --- | --- |
@@ -20,6 +20,8 @@ All live in `app/globals.css`. Do not add colours or sizes outside them.
 | `--surface` | `#F2F4F7` | Tone step instead of lines |
 | `--accent` | `#146EF5` | Actions, the footer and the pro board. White on it is about 4.59:1, which passes AA |
 | `--accent-strong` | `#0E57C7` | Hover, and rows on the pro board |
+| `--warm` | `#FF6A2B` | Second brand colour: the closing field, the price block, the current-page marker. Ink text on it (about 6.8:1), never white |
+| `--warm-strong` | `#C2410C` | Orange as text on white or tone: deal amounts and the Deals link (about 5.2:1 on white) |
 | `--alert` | `#FFD60A` | Emergencies and warnings only, with ink text |
 
 **Type:** Archivo only. Display is weight 800 at width 62, uppercase, with leading near 0.88. Text is normal width, 400 and 500. Sizes are `--step-small`, `--step-body`, `--step-lead`, `--step-head`, `--step-poster` and `--step-giant`.
@@ -50,11 +52,14 @@ All live in `app/globals.css`. Do not add colours or sizes outside them.
 | Privacy | Full-height picture beside a table of who sees what |
 | Pricing | One sentence, with the price as a blue block |
 | FAQ | Wide heading, indented questions |
-| Close | Inverted black: "Still leaking?" echoes the hero |
-| Footer | Blue field. The way in is the headline: "I do this work" |
+| Close | Orange field: "Still leaking?" echoes the hero |
+| Header | Sticks to the top of every page. A Categories menu holds every trade. Phones get bottom tabs instead, except on `/job` |
+| Footer | Black directory: Need a hand, Need work, popular services, Oddjob |
 | `/job` | Black job card held on the left, stage on the right |
-| `/jobs` | The whole page is the blue field, a dispatch board. Blue always means the worker's side |
-| `/workers` | White page with rows on tone. Blue or white tells you which side you are on |
+| `/jobs` | Blue band with headline and tools, then categories beside job rows on tone. Blue always means the worker's side |
+| `/workers` | The same shape with a tone band. Rows carry each person's three ledger figures |
+| `/signup`, `/login` | Panel beside the form. The panel turns blue for a worker, tone for a household, ink for logging in |
+| `/feedback` | Wide heading, a short promise on the left, the form on the right |
 | `/trades` | Search, then trades in four groups, with a sticky picture |
 | `/trades/[slug]` | Blue panel of homes asking beside a tone panel of people |
 | `/deals` | One column of offers, filtered by kind |

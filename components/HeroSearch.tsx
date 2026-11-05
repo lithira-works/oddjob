@@ -173,10 +173,10 @@ export function HeroSearch() {
   const destination = hasTyped ? `/job?q=${encodeURIComponent(typed.trim())}` : "/job";
 
   return (
+    <>
+    <Nav action="after-hero" over />
     <section ref={root} className="hero" aria-label="Find someone" id="top">
       <div className="hero__stage">
-        <div className="hero__nav"><Nav action={false} /></div>
-
         <div className="hero__window">
           <div className="hero__reel" ref={reelRef} aria-hidden="true">
             <div className="hero__frame">
@@ -241,5 +241,6 @@ export function HeroSearch() {
         </div>
       </div>
     </section>
+    </>
   );
 }

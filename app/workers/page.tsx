@@ -16,8 +16,8 @@ export default async function WorkersPage({ searchParams }: { searchParams: Prom
   const params = await searchParams;
   return (
     <>
-      <div id="top"><Nav action={false} /></div>
-      <main className="market-page">
+      <Nav action={false} />
+      <main className="explore">
         <Workers
           initialTrade={tradeBySlug(single(params.trade))?.slug}
           initialSort={parseSort(single(params.sort))}

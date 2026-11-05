@@ -1,5 +1,6 @@
 "use client";
 
+import { Check } from "lucide-react";
 import Link from "next/link";
 import { Fragment, useMemo, useState } from "react";
 import { answerJob, balanceOf, InsufficientCreditsError, refundFakeLead, topUp, type LedgerEntry } from "@/lib/credits";
@@ -8,7 +9,7 @@ import { tradeBySlug } from "@/lib/data/trades";
 import { capitalise, countByTrade, filterJobs, marketHref } from "@/lib/market";
 import { AdSlot } from "./AdSlot";
 import { CategoryPicker, followInPlace } from "./CategoryPicker";
-import { ExploreDoors } from "./ExploreDoors";
+import { ExploreBand } from "./ExploreDoors";
 import { TradeIcon } from "./TradeIcon";
 
 const opening = (): LedgerEntry[] => topUp([], "welcome", 10);
@@ -61,27 +62,36 @@ export function Board({ initialTrade, initialWhen }: { initialTrade?: string; in
   const row = (job: BoardJob) => {
     const mine = paid(job.id) && !refunded(job.id);
     const full = job.replies >= MAX_REPLIES && !paid(job.id);
+    const replies = job.replies + (mine ? 1 : 0);
     return (
       <li key={job.id} className={`board__row ${mine ? "is-mine" : ""}`} data-ui="" data-reveal="row">
+        <TradeIcon slug={job.tradeSlug} size={28} />
         <div className="board__what">
+          <span className="small cap board__trade">{tradeBySlug(job.tradeSlug)?.name}</span>
           <h2 className="display board__words">{job.words}</h2>
           <p className="board__note">{job.note}</p>
+          <p className="board__meta small">
+            <span>{job.area}, rough area only</span>
+            <span className={job.when === "Today" ? "board__today" : undefined}>{job.when}</span>
+            <span className="board__replies">
+              <span className="slots" aria-hidden="true">
+                {Array.from({ length: MAX_REPLIES }, (_, i) => <i key={i} className={i < replies ? "is-on" : undefined} />)}
+              </span>
+              {replies} of {MAX_REPLIES} replies
+            </span>
+          </p>
         </div>
-        <span className="board__meta">
-          <span className="tradetag"><TradeIcon slug={job.tradeSlug} size={18} /><span className="cap">{tradeBySlug(job.tradeSlug)?.name}</span></span>
-          {job.area}, rough area only
-          <br />
-          {job.when}. {job.replies + (mine ? 1 : 0)} of {MAX_REPLIES} replies
-        </span>
-        {refunded(job.id) ? (
-          <span className="small">Reported. Credits returned.</span>
-        ) : mine ? (
-          <span className="small" style={{ fontWeight: 500 }}>Answered</span>
-        ) : (
-          <button type="button" className="btn btn--white" disabled={full} onClick={() => answer(job.id, job.cost)}>
-            {full ? "Full: five replied" : `Answer for ${job.cost} credits`}
-          </button>
-        )}
+        <div className="board__act">
+          {refunded(job.id) ? (
+            <span className="small">Reported. Credits returned.</span>
+          ) : mine ? (
+            <span className="board__done"><Check size={20} aria-hidden="true" />Answered</span>
+          ) : (
+            <button type="button" className="btn" disabled={full} onClick={() => answer(job.id, job.cost)}>
+              {full ? "Full: five replied" : `Answer for ${job.cost} credits`}
+            </button>
+          )}
+        </div>
         {mine && (
           <div className="board__open">
             <span>Chat is open. You get the exact address and a masked line if you are booked.</span>
@@ -94,50 +104,51 @@ export function Board({ initialTrade, initialWhen }: { initialTrade?: string; in
 
   return (
     <>
-      <ExploreDoors side="jobs" trade={trade} />
+      <ExploreBand
+        side="jobs"
+        trade={trade}
+        title="Homes that need help"
+        action={<p className="band__act">Pay only for the jobs you answer, and see the cost first. Real jobs will show only to signed-in, ID-checked workers.</p>}
+      >
+        <div className="market__tools">
+          <label className="field market__search">
+            <span>Search these jobs</span>
+            <input type="search" className="input" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Leak, gate, termites" maxLength={80} autoComplete="off" />
+          </label>
+          <div className="seg" role="group" aria-label="When">
+            {[undefined, ...JOB_WHEN].map((option) => (
+              <a
+                key={option ?? "any"}
+                className="seg__item"
+                href={marketHref("/jobs", { trade, when: option })}
+                aria-current={when === option ? "true" : undefined}
+                onClick={(e) => followInPlace(e, () => applyFilters(trade, option))}
+              >
+                {option ?? "Any time"}
+              </a>
+            ))}
+          </div>
+        </div>
+      </ExploreBand>
 
       <div className="market">
         <aside className="market__side">
           <div className="board__credits" aria-live="polite">
-            <b>{balance}</b>
-            <span>credits left</span>
+            <p><b>{balance}</b> credits left</p>
             <button type="button" className="btn btn--small btn--white" onClick={() => { setLedger(topUp(ledger, `demo-${ledger.length}`, 10)); setNotice(null); }}>
-              Add 10 credits (preview)
+              Add 10 (preview)
             </button>
           </div>
           <CategoryPicker path="/jobs" current={trade} counts={counts} total={total} keep={{ when }} onPick={(next) => applyFilters(next, when)} />
         </aside>
 
         <div className="market__main">
-          <p>
-            Pay only for the jobs you answer, and see the cost first. Sample jobs: nobody posted these, and no money moves. Real jobs will show only to signed-in, ID-checked workers.
+          <p className="market__count" aria-live="polite">
+            <b>{jobs.length} {jobs.length === 1 ? "sample job" : "sample jobs"}{chosen ? ` for ${chosen.article} ${chosen.name}` : ""}</b>
+            <span className="small">Nobody posted these, and no money moves.</span>
           </p>
 
-          <p className="market__count small" aria-live="polite">
-            {jobs.length} {jobs.length === 1 ? "sample job" : "sample jobs"}{chosen ? ` for ${chosen.article} ${chosen.name}` : ""}
-          </p>
-
-          <div className="market__tools">
-            <label className="field market__search">
-              <span>Search these jobs</span>
-              <input type="search" className="input" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Leak, gate, termites" maxLength={80} autoComplete="off" />
-            </label>
-            <div className="seg" role="group" aria-label="When">
-              {[undefined, ...JOB_WHEN].map((option) => (
-                <a
-                  key={option ?? "any"}
-                  className="seg__item"
-                  href={marketHref("/jobs", { trade, when: option })}
-                  aria-current={when === option ? "true" : undefined}
-                  onClick={(e) => followInPlace(e, () => applyFilters(trade, option))}
-                >
-                  {option ?? "Any time"}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {notice && <p className="alert" role="alert" style={{ color: "var(--ink)", marginBottom: 12, maxWidth: "none" }}>{notice}</p>}
+          {notice && <p className="alert" role="alert" style={{ maxWidth: "none" }}>{notice}</p>}
 
           {jobs.length > 0 ? (
             <ul>
@@ -162,7 +173,7 @@ export function Board({ initialTrade, initialWhen }: { initialTrade?: string; in
             </div>
           )}
 
-          <section className="board__ledger">
+          <section className="board__ledger" id="credits">
             <h2 className="display">Your credits</h2>
             <div>
               <p>Every credit in and out is listed. Nothing is charged twice, and your balance is worked out from this list.</p>
@@ -171,11 +182,11 @@ export function Board({ initialTrade, initialWhen }: { initialTrade?: string; in
                   <li key={e.key}><span>{e.note}</span><span>{e.amount > 0 ? `+${e.amount}` : e.amount}</span></li>
                 ))}
               </ul>
-              <p style={{ marginTop: 32 }}>
-                Need something fixed yourself? <Link href="/job" className="link">Post your own job</Link>
-              </p>
             </div>
           </section>
+          <p className="market__after">
+            Need something fixed yourself? <Link href="/job" className="link">Post your own job</Link>
+          </p>
         </div>
       </div>
     </>

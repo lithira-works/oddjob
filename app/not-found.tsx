@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 
 export default function NotFound() {
@@ -10,6 +11,7 @@ export default function NotFound() {
         <p style={{ marginBottom: 24 }}>This page doesn’t exist. Your leak still might.</p>
         <Link href="/job" className="btn">Find someone</Link>
       </main>
+      <Footer />
     </>
   );
 }

@@ -15,7 +15,7 @@ The household's own problem is the layout. Every new screen should carry it: the
 
 - Use tokens from `app/globals.css`. Add no new colours, sizes, radii or fonts.
 - Archivo only: display at weight 800, width 62, uppercase. Body in normal width.
-- White ground, ink text. `#146EF5` on actions, or as one deliberate full field. `--alert` only for warnings.
+- White ground, ink text. `#146EF5` on actions, or as one deliberate full field. `--warm` orange for money off and the closing field, with ink text and never white. `--alert` only for warnings.
 - Separate with tone steps and space.
 - Neighbouring sections use different compositions.
 - One primary button per screen, named "Find someone" for households.
