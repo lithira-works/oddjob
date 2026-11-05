@@ -10,9 +10,9 @@ const CONTROL_CHARACTERS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/;
 export const safeText = (min: number, max: number) =>
   z.string().trim().min(min).max(max).refine((text) => !CONTROL_CHARACTERS.test(text));
 
-const LOOKS_LIKE_ADDRESS = /\b\d+[a-z]?\s*[,/]?\s*[\p{L}.' -]*\b(road|rd|street|st|lane|ln|avenue|ave|mawatha|mw|place|pl|drive|dr)\b/iu;
+export const LOOKS_LIKE_ADDRESS = /\b\d+[a-z]?\s*[,/]?\s*[\p{L}.' -]*\b(road|rd|street|st|lane|ln|avenue|ave|mawatha|mw|place|pl|drive|dr)\b/iu;
 
-const freeOfContact = (text: string) => !screenMessage(text).flagged;
+export const freeOfContact = (text: string) => !screenMessage(text).flagged;
 
 const JobInput = z.strictObject({
   words: safeText(2, 500).refine(freeOfContact),

@@ -16,7 +16,7 @@ Last updated 2026-11-05. This is a working front-end preview, not a launch-ready
 - Category pages at `/trades/[slug]`, showing homes asking and people listed side by side.
 - Header that stays on screen, with a Categories menu of all 27 trades, and bottom tabs on phones except on `/job`. Footer directory for households, workers and popular services.
 - Feedback at `/feedback`: validated, rate limited, and saved to `user-data/feedback.jsonl`, which git ignores. It keeps the note and time, with no IP address. Hosting without a lasting disk answers with an error until this moves to the database.
-- Admin at `/admin`: one account, created with `npm run admin:create`. It shows saved feedback and which parts of the site are set up, and changes nothing. Tested against forged cookies, cross-site logins and repeated guesses on a production build. No public page links to it. On a host with no lasting disk there is no feedback to show, for the reason above.
+- Admin at `/admin`: one account, created with `npm run admin:create`. Left tabs for Overview, Jobs, Workers, Trades, Deals, Credits, Banner ads, Feedback, Accounts, ID checks, Disputes, Team, Activity and Setup. It shows saved feedback and which parts of the site are set up. Login tested against forged cookies, cross-site logins and repeated guesses on a production build. No public page links to it. On a host with no lasting disk there is no feedback to show, for the reason above.
 - Banner spaces with date windows, on the homepage, both lists, deals and category pages. `lib/data/ads.ts` holds the bookings, and there are none yet, so each space offers itself for hire.
 
 ## Simulated: looks real, does nothing real
@@ -26,6 +26,10 @@ Last updated 2026-11-05. This is a working front-end preview, not a launch-ready
 | Replies, providers, jobs, ledger figures | All fictional, from `lib/data/`. Labelled on screen |
 | Sending a job | Nothing is sent to anyone |
 | Booking and payment | No money moves. No payment provider connected |
+| Admin create, edit and delete | Works on Jobs, Workers, Trades, Deals, Credits, Banner ads and Team, with the form rules enforced, but only as drafts in the admin's browser. Nothing reaches the public site or any other person |
+| Managers and roles | Admin and Manager can be previewed from the sidebar, and the screens follow the table in `lib/admin/roles.ts`. This is not security: no manager login exists and the server enforces no role |
+| Admin activity list | Lists drafts by record id, in the browser. Not an audit log: it can be cleared |
+| Accounts, ID checks and Disputes tabs | Say what they are waiting for. Nothing to manage yet |
 | Guarantee and disputes | Text only. No process or staff behind them |
 | Masked phone line | Not connected to a telephony provider |
 | Chat | Held in the browser only. Lost on reload |
@@ -60,7 +64,7 @@ The site describes planned behaviour as fact, so the design can be judged. Each 
 
 ## Known gaps
 
-- Admin login has a password but no second factor, and only one account. A stolen session cookie works until it expires, up to 4 hours, unless `npm run admin:create` replaces the account. Add a second factor, one account per person and an audit log before the dashboard can see personal data or change anything. Login limits are per server, like other rate limits.
+- Admin login has a password but no second factor, and only one account. A stolen session cookie works until it expires, up to 4 hours, unless `npm run admin:create` replaces the account. Add a second factor, one account per person, server-side roles and an audit log before the dashboard can see personal data or change anything real, which is why its edits are drafts. The same list is on its Setup tab. Login limits are per server, like other rate limits.
 - `/jobs`, the homepage and `/trades/[slug]` show job words to anyone, which is fine only for sample data. Decided: real job words and rough areas go only to signed-in, ID-checked workers and the household itself. Visitors get a count per trade from `open_job_counts()`. These pages must follow that rule when they move to the database.
 - Checked workers can read `household_id` on open jobs, which links one household's jobs together. Serve the board through a view or server route without that column.
 - `/job?q=` puts the household's own words in the URL, which can reach logs and browser history. Change to POST when real jobs exist.

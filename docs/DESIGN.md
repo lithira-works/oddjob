@@ -60,7 +60,7 @@ All live in `app/globals.css`. Do not add colours or sizes outside them. Blue st
 | `/workers` | The same shape with a tone band. Rows carry each person's three ledger figures |
 | `/signup`, `/login` | Panel beside the form. The panel turns blue for a worker, tone for a household, ink for logging in |
 | `/verify` | One calm column with three named stages, one job per screen, and each photo's preview in place |
-| `/admin` | Black bar, with feedback on the left and a tone panel of site setup on the right. Items that need doing are in `--warm-strong`. Not linked from public pages |
+| `/admin` | Black tabs fixed on the left, with the current tab on white. Phones get bottom tabs and a full-screen More. Overview sets what needs doing as the headline, beside the newest job's card. Headings and controls are smaller than on public pages, because people work here all day. Lists are real tables with a drawer for editing, and the job drawer shows the card updating as you type. Items that need doing are in `--warm-strong`. Not linked from public pages |
 | `/feedback` | Wide heading, a short promise on the left, the form on the right |
 | `/trades` | Search, then trades in four groups, with a sticky picture |
 | `/trades/[slug]` | Blue panel of homes asking beside a tone panel of people |

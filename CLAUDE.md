@@ -36,6 +36,7 @@ Marketplace connecting households with tradespeople. Next.js 16, React 19, TypeS
 
 - `app/`: pages and API routes
 - `components/`: UI. `HeroSearch` is the signature piece
+- `components/admin/`, `lib/admin/`: the admin desk. Edits are browser drafts until the list on its Setup tab exists
 - `lib/match.ts`: words to trade, and emergency detection
 - `lib/contact-screen.ts`: chat screening
 - `lib/credits.ts`: credit ledger rules
